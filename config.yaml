@@ -9,22 +9,21 @@
 # cp: Carpentries (to use for instructor training for instance)
 # incubator: The Carpentries Incubator
 carpentry: 'swc'
-varnish: cgross95/varnish@icer
 
 # Overall title for pages.
 title: 'R for the HPCC'
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
-created: 2023-06-30
+created: '2023-06-30'
 
 # Comma-separated list of keywords for the lesson
 keywords: 'r, hpcc, parallel, cluster, icer'
 
 # Life cycle stage of the lesson
 # possible values: pre-alpha, alpha, beta, stable
-life_cycle: 'pre-alpha' # FIXME
+life_cycle: 'pre-alpha'
 
-# License of the lesson
+# License of the lesson materials (recommended CC-BY 4.0)
 license: 'CC-BY 4.0'
 
 # Link to the source repository for this lesson
@@ -61,6 +60,7 @@ contact: 'grosscra@msu.edu'
 # Order of episodes in your lesson
 episodes: 
 - introduction.Rmd
+- startup.Rmd
 
 # Information for Learners
 learners: 
@@ -76,4 +76,4 @@ profiles:
 # This space below is where custom yaml items (e.g. pinning
 # sandpaper and varnish versions) should live
 
-
+varnish: cgross95/varnish@icer
