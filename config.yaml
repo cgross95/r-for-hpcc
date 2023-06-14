@@ -61,6 +61,8 @@ contact: 'grosscra@msu.edu'
 episodes: 
 - introduction.Rmd
 - startup.Rmd
+- rstudio-ondemand.Rmd
+- r-command-line.Rmd
 
 # Information for Learners
 learners: 
