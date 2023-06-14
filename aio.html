@@ -200,6 +200,30 @@
 </div>
 <!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush4">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading4">
+        <a href="rstudio-ondemand.html">3. Accessing RStudio through OnDemand</a>
+    </div>
+<!--/div.accordion-header-->
+        
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="r-command-line.html">4. Using R on the command line</a>
+    </div>
+<!--/div.accordion-header-->
+        
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -336,7 +360,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -367,7 +391,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -511,7 +535,7 @@ reinforce the objectives.</li>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -542,7 +566,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -602,6 +626,669 @@ customizations</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
+</section></section><section id="aio-rstudio-ondemand"><p>Content from <a href="rstudio-ondemand.html">Accessing RStudio through OnDemand</a></p>
+<hr>
+<p> Last updated on 2023-06-14 | 
+        
+        <a href="https://github.com/cgross95/r-for-hpcc/edit/main/episodes/rstudio-ondemand.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right"> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>How can you run RStudio on the HPCC?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Create an OnDemand session to run RStudio</li>
+<li>Understand the options for creating an OnDemand session</li>
+<li>Access a terminal on the node where your RStudio job is running</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="ondemand"><h2 class="section-heading">OnDemand<a class="anchor" aria-label="anchor" href="#ondemand"></a>
+</h2>
+<hr class="half-width">
+<p>HPCC resources have traditionally been accessed solely through a
+terminal. Though the terminal is still the best way to accomplish many
+tasks on the HPCC, launching graphical user interfaces (GUIs) like
+RStudio is not one of them! This procedure has been streamlined through
+the use of OnDemand to run graphical applications through your web
+browser.</p>
+<p>This is where we will start our journey with R on the HPCC,
+eventually making our way back to using R on the command line.</p>
+</section><section id="starting-an-rstudio-job"><h2 class="section-heading">Starting an RStudio job<a class="anchor" aria-label="anchor" href="#starting-an-rstudio-job"></a>
+</h2>
+<hr class="half-width">
+<p>We’ll begin by logging in on OnDemand. Go to <a href="https://ondemand.hpcc.msu.edu" class="external-link">https://ondemand.hpcc.msu.edu</a>,
+If you are prompted, choose Michigan State University as the Identity
+Provider, and log in using your MSU NetID and password. Before we get
+into any other OnDemand specifics, we’ll submit an RStudio job to get
+you up and running.</p>
+<p>Go to the Interactive Apps tab and select RStudio.</p>
+<figure><img src="fig/select-r-studio.png" alt="The OnDemand home screen with the Interactive Apps tab expanded to show RStudio" class="figure mx-auto d-block"></figure><p>On the following screen you will be able to choose the options for
+your RStudio job. For this workshop, you should use the following
+options:</p>
+<ul>
+<li>R version: 4.0.2</li>
+<li>Number of hours: 3</li>
+<li>Number of cores per task: 8</li>
+<li>Amount of memory: 5GB</li>
+</ul>
+<figure><img src="fig/rstudio-ondemand-options.png" alt="The RStudio OnDemand setup screen with text boxes for the four options listed above filled in using the values specified." class="figure mx-auto d-block"></figure><p>If you need to specify any other options (for example, if you want to
+run your session on a buy-in node and specify your SLURM account), you
+can click the Advanced Options checkbox and enter additional
+information.</p>
+<p>Select the Launch button and wait for your job to start. When your
+job is ready, you will see a card with all of the information for your
+job. The most important fields for now are the Host which is the node on
+the HPCC where you job is running and the Time Remaining which counts
+down from the requested number of hours.</p>
+<figure><img src="fig/running-rstudio-job.png" alt="An OnDemand card with the information for a running RStudio job. The Host is css-094, the Time Remaining is 2 hours and 52 minutes, the compression slider is set to approximately 6 out of 9 and the Image Quality slider is approximately 5 out of 9." class="figure mx-auto d-block"></figure><p>You can move the Compression and Image Quality sliders to change the
+quality and responsiveness of the RStudio session. Generally, moving the
+sliders somewhere between 5 to 7 works well, but for slower internet
+connections, you might prefer a lower quality and higher
+compression.</p>
+<p>When you’re ready to access RStudio, you can click the Launch RStudio
+button. If you ever navigate away from this screen, you can always
+return to it by clicking the My Interactive Sessions button in the
+OnDemand navigation bar. On less wide screens, this button shrinks down
+to a graphic of a pair of overlapping cards next to the Tools
+dropdown.</p>
+</section><section id="rstudio"><h2 class="section-heading">RStudio<a class="anchor" aria-label="anchor" href="#rstudio"></a>
+</h2>
+<hr class="half-width">
+<p>After Launching your RStudio session, a new tab in your browser will
+show an interactive desktop with RStudio running. If you are asked to
+update Rstudio, select Ignore Update. You may also need to maximize the
+RStudio window to your current browser size with the square button next
+to the “X” in the top right corner.</p>
+<figure><img src="fig/rstudio-interface.png" alt="An interactive desktop showing a new RStudio session. An R console takes up the left half of RStudio, and the right half is split between an environment section on top and a file browser on bottom." class="figure mx-auto d-block"></figure><p>On startup, there are three main sections to RStudio: an R console,
+an environment section, and a file browser. Notice that the file browser
+starts in your HPCC home directory.</p>
+
+<div id="open-a-file" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="open-a-file" class="callout-inner">
+<h3 class="callout-title">Open a file<a class="anchor" aria-label="anchor" href="#open-a-file"></a>
+</h3>
+<div class="callout-content">
+<p>Use the RStudio interface to create a new R Script file.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">
+  Show me the solution
+  </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<p>Click the button that looks like a page with a plus sign right below
+the file menu and choose R Script.</p>
+<figure><img src="fig/rstudio-new-rscript.png" alt="The new document button in RStudio expanded to show options like 'R Script' and 'R Markdown'." class="figure mx-auto d-block"></figure><p>Notice that the R console shrinks to make room for the text
+editor.</p>
+</div>
+</div>
+</div>
+</div>
+</section><section id="connect-to-your-rstudio-node-from-the-command-line"><h2 class="section-heading">Connect to your RStudio node from the command line<a class="anchor" aria-label="anchor" href="#connect-to-your-rstudio-node-from-the-command-line"></a>
+</h2>
+<hr class="half-width">
+<p>As discussed earlier, OnDemand tells you the Host that your RStudio
+job is running on. From time to time, you may need to run commands on
+this host from a command line. You have two options.</p>
+<div class="section level3">
+<h3 id="the-rstudio-terminal">The RStudio terminal<a class="anchor" aria-label="anchor" href="#the-rstudio-terminal"></a>
+</h3>
+<p>Handily, RStudio provides a terminal for you to use! Right next to
+the R console, is a Terminal tab. Clicking this tab will start a
+terminal on the same node that RStudio is running on.</p>
+<figure><img src="fig/rstudio-terminal.png" alt="The terminal tab in RStudio showing a terminal connected to the host css-106" class="figure mx-auto d-block"></figure>
+</div>
+<div class="section level3">
+<h3 id="ssh">SSH<a class="anchor" aria-label="anchor" href="#ssh"></a>
+</h3>
+<p>This can be accomplished through any terminal that you can SSH to the
+HPCC on. Since we’re already using OnDemand, we’ll use the built-in
+terminal.</p>
+<p>Returning to the OnDemand window, open the Development Nodes dropdown
+from the navigation bar.</p>
+<figure><img src="fig/ondemand-dev-nodes-dropdown.png" alt="The Development Nodes dropdown from the OnDemand navigation bar showing the development nodes accessible on the HPCC" class="figure mx-auto d-block"></figure><p>Choose any development node, and a new tab will open with a terminal
+on that node.</p>
+<div id="ssh-outside-of-ondemand" class="callout callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div id="ssh-outside-of-ondemand" class="callout-inner">
+<h3 class="callout-title">SSH outside of OnDemand<a class="anchor" aria-label="anchor" href="#ssh-outside-of-ondemand"></a>
+</h3>
+<div class="callout-content">
+<p>If you are not using an OnDemand terminal, you first need to manually
+SSH into a development node. From your terminal (e.g., the built in
+terminal on Mac or MobaXterm on Windows), SSH into the gateway via
+<code>ssh &lt;netid&gt;@hpcc.msu.edu</code>, then SSH into a development
+node, e.g., <code>ssh dev-amd20</code>.</p>
+</div>
+</div>
+</div>
+<p>Now find the Host your RStudio session is running on (remember, this
+information is always available in the My Interactive Jobs section in
+OnDemand), and in the development node terminal type</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>host<span class="op">&gt;</span></span></code></pre>
+</div>
+<p>replacing <code>&lt;host&gt;</code> by the host your RStudio session
+is running on.</p>
+<div id="challenge2" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge2"></a>
+</h3>
+<div class="callout-content">
+<p>Run the <code>top</code> command via command line on the node your
+RStudio session is running on and verify that indeed RStudio is running
+there.</p>
+<p><em>Hint</em>: If your node is busy, you can use
+<code>top -u &lt;netid&gt;</code> (replacing <code>&lt;netid&gt;</code>
+with your username) to see just your running processes.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2">
+  Show me the solution
+  </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div class="accordion-body">
+<p>Running <code>top -u k0068027</code> (my username) from the RStudio
+terminal shows the <code>rstudio</code> command in the
+<code>COMMAND</code> column.</p>
+<figure><img src="fig/rstudio-top.png" alt="The top command running through the RStudio terminal. In addition to some auxiliary processes, one row in the top output has 'rstudio' in the COMMAND column." class="figure mx-auto d-block"></figure><p>Depending on your screen width, you may have to use the arrow keys to
+scroll to the right and see the <code>COMMAND</code> column.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Keypoints<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
+</h3>
+<div class="callout-content">
+<ul>
+<li>Start an RStudio session from <a href="https://ondemand.hpcc.msu.edu" class="external-link">OnDemand</a>
+</li>
+<li>Access the command line of the node your process is running on
+through the RStudio terminal or SSH into the host OnDemand provides
+you.</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- 
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use. 
+ -->
+</div>
+</section></section><section id="aio-r-command-line"><p>Content from <a href="r-command-line.html">Using R on the command line</a></p>
+<hr>
+<p> Last updated on 2023-06-14 | 
+        
+        <a href="https://github.com/cgross95/r-for-hpcc/edit/main/episodes/r-command-line.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right"> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>How do you run R on the HPCC through the command line?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Demonstrate how to find and load a desired version of R using the
+module system</li>
+<li>Demonstrate how to start an R console</li>
+<li>Demonstrate how to run R scripts with the <code>RScript</code>
+command</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="accessing-the-hpcc-through-the-terminal"><h2 class="section-heading">Accessing the HPCC through the terminal<a class="anchor" aria-label="anchor" href="#accessing-the-hpcc-through-the-terminal"></a>
+</h2>
+<hr class="half-width">
+<p>Up to now, we’ve been using RStudio through OnDemand to write and run
+R code on the HPCC. Now, we’ll do the same things we’ve been doing, but
+solely through the command line. This will allow us to eventually <a href="tbd">submit SLURM batch scripts</a> to run our code on compute
+nodes.</p>
+<p>For now, we’ll start by running everything on a development node.
+Using our <a href="rstudio-ondemand.html#ssh">previous instructions to
+SSH into a development node</a>, we can get a command line running on a
+development node. As a reminder, from a personal terminal, this looks
+something like</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>netid<span class="op">&gt;</span>@hpcc.msu.edu</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>dev-node<span class="op">&gt;</span></span></code></pre>
+</div>
+<p>For best results, choose a development node with low usage.</p>
+</section><section id="loading-r"><h2 class="section-heading">Loading R<a class="anchor" aria-label="anchor" href="#loading-r"></a>
+</h2>
+<hr class="half-width">
+<p>The command to run an R console from the command line is just
+<code>R</code>! But if we try it out right away, we get an error</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>-bash: R: command not found</code></pre>
+</div>
+<p>The HPCC packages up all of its available software into
+<strong>modules</strong> so that not every piece of software is
+available to everyone all of the time. To get access to R, we have to
+load its module.</p>
+<p>Let’s first start by finding the version we’re interested in. We’ll
+use the <code>module spider</code> command which searches through all
+the modules for the ones we want:</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider R</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>------------------------------------------------------------------------------
+  R:
+------------------------------------------------------------------------------
+    Description:
+      R is a free software environment for statistical computing and graphics.
+
+     Versions:
+        R/3.3.1
+        ...
+        R/4.0.2
+        R/4.0.3
+        R/4.1.0
+        R/4.1.2
+        R/4.2.2
+     Other possible modules matches:
+        ADMIXTURE  AMDuProf  APR  APR-util  Abaqus_parallel  AdapterRemoval  
+        Advisor  Amber  AmrPlusPlus  Archive-Zip  Armadillo  Arrow  ...
+
+------------------------------------------------------------------------------
+  To find other possible module matches execute:
+
+      $ module -r spider '.*R.*'</code></pre>
+</div>
+<p>We’ve abbreviated the output, but we can see that there are lots of
+different versions of R available! We’ll try loading 4.0.2 since that
+version on the HPCC has a large number of packages pre-installed.</p>
+<p>If you’re familiar with the module system, you might try to load the
+module right away with <code>module load</code>:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load R/4.0.3</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Lmod has detected the following error:  These module(s) or extension(s) exist
+but cannot be loaded as requested: "R/4.0.3"
+   Try: "module spider R/4.0.3" to see how to load the module(s).</code></pre>
+</div>
+<p>But we get an error! Let’s try the suggested fix to see what’s going
+on:</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider R/4.0.3</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>----------------------------------------------------------------------------
+  R: R/4.0.3
+----------------------------------------------------------------------------
+    Description:
+      R is a free software environment for statistical computing and
+      graphics.
+
+
+    You will need to load all module(s) on any one of the lines below before the
+    "R/4.0.3" module is available to load.
+
+      GCC/10.2.0  OpenMPI/4.0.5
+      GCC/9.3.0  OpenMPI/4.0.3
+      iccifort/2020.1.217  impi/2019.7.217
+ 
+    Help:
+      Description
+      ===========
+      R is a free software environment for statistical computing
+       and graphics.
+    ...
+</code></pre>
+</div>
+<p>Ah-ha! We see that we need to load some other modules first! These
+are dependencies that R needs to run. Without them, it won’t work!</p>
+<p>Before we do that, it’s good practice to purge any other modules that
+might be loaded that we won’t need. This will ensure a clean environment
+and will reduce the possibility of any conflicts.</p>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> purge</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load GCC/10.2.0 OpenMPI/4.0.5 R/4.0.3</span></code></pre>
+</div>
+<p>No error! Let’s check that we can access R:</p>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+&gt; </code></pre>
+</div>
+<p>Great! We now have an R console where we can run short lines of code,
+just like from RStudio. As the output from <code>R</code> shows, type
+<code>q()</code> to quit and return back to the command line. If you’re
+asked to save the workspace image, it’s best practice to say no since
+this can lead to long load times and less reproducible sessions in the
+future.</p>
+</section><section id="running-one-liners-and-scripts-with-rscript"><h2 class="section-heading">Running one-liners and scripts with <code>RScript</code><a class="anchor" aria-label="anchor" href="#running-one-liners-and-scripts-with-rscript"></a>
+</h2>
+<hr class="half-width">
+<p>The R console is great for interactive work. But sometimes we might
+want to just send some code to R to run and give us back the answer. For
+this, we use the <code>Rscript</code> command.</p>
+<p>First, let’s start by sending <code>Rscript</code> a single command
+using the <code>-e</code> flag (which stands for “expression”):</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'date()'</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] "Wed Jun 14 15:20:58 2023"</code></pre>
+</div>
+<p>We get the same output as if we had run <code>date()</code> in an R
+console or in a script! Note that we have to wrap the expression we want
+to run in single quotes.</p>
+<p>We can run multiple expressions at once. For example, let’s get the
+quotient and remainder of 128 divided by 11:</p>
+<div class="codewrapper sourceCode" id="cb15">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'128 %/% 11'</span> <span class="at">-e</span> <span class="st">'128 %% 11'</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] 11
+[1] 7</code></pre>
+</div>
+<p>The real power of <code>Rscript</code> comes into play when we have
+an actual script to run! Let’s run our previous one.
+<code>Rscript</code> takes the path to the script as argument. We’ll
+first change directory to the location of our script so we don’t need to
+specify the entire path name.</p>
+<div class="codewrapper sourceCode" id="cb17">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/r_workshop</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> test_serial.R</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code><span><span class="va">TBD</span></span></code></pre>
+</div>
+<p>This is the equivalent of clicking the Source button while we have a
+R script open in RStudio, or running
+<code>source('~/r_workshop/test_serial.R')</code> from an R console.</p>
+</section><section id="writing-scripts-that-take-command-line-arguments"><h2 class="section-heading">Writing scripts that take command line arguments<a class="anchor" aria-label="anchor" href="#writing-scripts-that-take-command-line-arguments"></a>
+</h2>
+<hr class="half-width">
+<p>Often, you will want to be able to pass extra arguments to your
+scripts when you run them from the command line. The simplest way is to
+use the <code>commandArgs</code> function in R which lets us access all
+of the command line arguments as a character vector.</p>
+<p>From the command line, open a new R script called
+<code>command_args.R</code> in a text editor of your choice. If you
+aren’t familiar with any, a good option is <code>nano</code>.</p>
+<div class="codewrapper sourceCode" id="cb19">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> command_args.R</span></code></pre>
+</div>
+<p>Our script will print out all of our command line arguments:</p>
+<div class="codewrapper sourceCode" id="cb20">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">args</span> <span class="op">&lt;-</span> <span class="fu">commandArgs</span><span class="op">(</span>trailingOnly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">nargs</span> <span class="op">&lt;-</span> <span class="fu">length</span><span class="op">(</span><span class="va">args</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nargs</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">cat</span><span class="op">(</span><span class="st">"Argument"</span>, <span class="va">i</span>, <span class="st">":"</span>, <span class="va">args</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre>
+</div>
+<p>It’s important to use the <code>trailingOnly = TRUE</code> option
+with <code>commandArgs</code> so that we only get the arguments after
+the name of the script.</p>
+<p>If you’re using <code>nano</code>, after typing the above code, press
+<code>ctrl+o</code> followed by <code>enter</code> to save, then
+<code>ctrl+x</code> to exit.</p>
+<p>We can now run our script through <code>Rscript</code> with some
+arguments:</p>
+<div class="codewrapper sourceCode" id="cb21">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> command_args.R a b c</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Argument 1 : a 
+Argument 2 : b 
+Argument 3 : c </code></pre>
+</div>
+<p>For a more sophisticated way to handle command line arguments
+(including flags, automated usage messages, default options, and more),
+check out <a href="https://cran.r-project.org/web/packages/optparse/" class="external-link">optparse</a>.</p>
+<div id="challenge1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge1"></a>
+</h3>
+<div class="callout-content">
+<p>Write an Rscript one-liner to print the numbers from 1 to 10.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">
+  Show me the solution
+  </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'for(i in 1:10) print(i)'</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="challenge2" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge2"></a>
+</h3>
+<div class="callout-content">
+<p>Write an Rscript one-liner to print the <code>help</code> for the
+function <code>strtoi</code>.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2">
+  Show me the solution
+  </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb24">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'help(strtoi)'</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="challenge3" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge3"></a>
+</h3>
+<div class="callout-content">
+<p>Write an Rscript that takes an integer as a command line argument and
+prints the numbers from 1 to that integer.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3">
+  Show me the solution
+  </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb25">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">args</span> <span class="op">&lt;-</span> <span class="fu">commandArgs</span><span class="op">(</span>trailingOnly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu">strtoi</span><span class="op">(</span><span class="va">args</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="fu">print</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Keypoints<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
+</h3>
+<div class="callout-content">
+<ul>
+<li>Use <code>module spider R/&lt;version&gt;</code> to learn how to
+load a version of R on the HPCC</li>
+<li>Run <code>R</code> from the command line to start an interactive R
+console</li>
+<li>Run <code>Rscript</code> to run an R script</li>
+<li>Use <code>commandArgs</code> to parse command line arguments in an R
+script</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- 
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use. 
+ -->
 </section></section>
 </div>
     </main>
@@ -651,8 +1338,8 @@ any links that you are not going to use.
   "url": "https://cgross95.github.io/r-for-hpcc/aio.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/aio.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-06-13",
-  "datePublished": "2023-06-13"
+  "dateModified": "2023-06-14",
+  "datePublished": "2023-06-14"
 }
 
   </script><script>
