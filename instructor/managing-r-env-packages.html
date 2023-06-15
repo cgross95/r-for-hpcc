@@ -85,11 +85,11 @@
   R for the HPCC
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 80%" class="percentage">
-    80%
+<aside class="col-md-12 lesson-progress"><div style="width: 50%" class="percentage">
+    50%
   </div>
   <div class="progress software">
-    <div class="progress-bar software" role="progressbar" style="width: 80%" aria-valuenow="80" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar software" role="progressbar" style="width: 50%" aria-valuenow="50" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -153,25 +153,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="startup.html">2. Personalizing your R startup</a>
-    </div><!--/div.accordion-header-->
-        
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush4">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading4">
-        <a href="rstudio-ondemand.html">3. Accessing RStudio through OnDemand</a>
-    </div><!--/div.accordion-header-->
-        
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush5">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading5">
-        <a href="r-command-line.html">4. Using R on the command line</a>
+        <a href="rstudio-ondemand.html">2. Accessing RStudio through OnDemand</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -183,7 +165,7 @@
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
-        5. Managing R package installation and environment
+        3. Managing R package installation and environment
         </span>
       </button>
     </div><!--/div.accordion-header-->
@@ -196,6 +178,15 @@
 <li><a href="#project-and-package-management">Project and package management</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
+        
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="r-command-line.html">4. Using R on the command line</a>
+    </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -241,13 +232,13 @@
         <!-- START: inst/pkgdown/templates/content-instructor.html -->
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Previous and Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link" href="../instructor/r-command-line.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="../instructor/index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link" href="../instructor/rstudio-ondemand.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
+        <a class="chapter-link float-end" href="../instructor/r-command-line.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
-        <a class="chapter-link" href="../instructor/r-command-line.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous: Using R on the</a>
-        <a class="chapter-link float-end" href="../instructor/index.html" rel="next">Next... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link" href="../instructor/rstudio-ondemand.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous: Accessing RStudio</a>
+        <a class="chapter-link float-end" href="../instructor/r-command-line.html" rel="next">Next: Using R on the... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Managing R package installation and environment</h1>
@@ -545,7 +536,7 @@ environment variable to say hello and goodbye to whoever is using the
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -589,20 +580,121 @@ order:</p>
 </ol><p>This means that you can setup per project profile and environment
 files, and use them by starting R in those directories. However, RStudio
 usually starts R in your home directory. Instead, the most effective way
-to achieve this is through RStudio projects.</p>
+to achieve this is through RStudio Projects.</p>
+<p>Start by creating an RStudio Project with button that looks like a
+plus sign on top of a cube near the Edit menu.</p>
+<figure><img src="../fig/rstudio-project-button.png" alt="The new RStudio Project button in RStudio" class="figure mx-auto d-block"></figure><p>Select New Directory, then New Project from the options. Under
+Directory name, use <code>r_workshop</code>, and make sure that it’s a
+subdirectory of your home directory <code>~</code>. We’ll leave the
+other options alone for now, but note that RStudio will integrate nicely
+into a workflow using git and GitHub! Click Create Project to
+finish.</p>
+<p>Your new RStudio Project will be loaded. This means a few things:</p>
+<ol style="list-style-type: decimal"><li>A new session of R will be started in the project directory.</li>
+<li>This directory will be your new working directory (check
+<code>getwd()</code>!).</li>
+<li>The file browser has moved to this directory.</li>
+<li>A file called <code>r_workshop.Rproj</code> has been created. This
+file saves some options for how you edit your project in RStudio.</li>
+</ol><p>At any time, you can navigate to your project directory in the
+RStudio file browser and click the <code>.Rproj</code> file to load up
+this project or any other. Now that we have this set up, we could create
+a local <code>.Rprofile</code> or <code>.Renviron</code> file just for
+this project.</p>
+<p>If you share your project, you can share any of these files as well
+(including your <code>.Rproj</code>) so others can use it too! For this
+reason, it’s generally good practice for any file names you use to be
+relative to your project directory. This way, it doesn’t matter what
+anyone else’s setup is like outside of the working directory, it’s just
+the inner workings that matter.</p>
+<div id="a-mini-package-isolation-solution" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="a-mini-package-isolation-solution" class="callout-inner">
+<h3 class="callout-title">A mini package isolation solution<a class="anchor" aria-label="anchor" href="#a-mini-package-isolation-solution"></a>
+</h3>
+<div class="callout-content">
+<p>Suppose you’re working on a project with some super special versions
+of packages that you don’t want to mess up other packages that you’ll
+use in other projects. The right way to do this is with a package
+manager like <a href="https://rstudio.github.io/packrat/" class="external-link"><code>packrat</code></a> or
+the newer <a href="https://rstudio.github.io/renv/articles/renv.html" class="external-link"><code>renv</code></a>.
+But we’ll create a quick approximation.</p>
+<p>Set your <code>R_LIBS_USER</code> environment variable to point to a
+directory called <code>library</code> in your <code>r_workshop</code>
+directory. Make sure that this <strong>only</strong> happens when you
+start R in your <code>r_workshop</code> directory, and not always!</p>
+<p>Restart R, check your work with the <code>.libPaths()</code>, and
+install the package <code>future</code>. This package won’t be available
+anywhere outside of this project.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2">
+  Show me the solution
+  </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div class="accordion-body">
+<p>Create the file <code>~/r_workshop/.Renviron</code> with the
+following line</p>
+<pre class="text"><code><span><span class="va">R_LIBS_USER</span><span class="op">=</span><span class="st">"./library"</span></span></code></pre>
+<p>Restarting R we check our library paths</p>
+<div class="codewrapper sourceCode" id="cb22">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">.libPaths</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] "/mnt/ufs18/home-237/k0068027/r_workshop/library" 
+[2] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"</code></pre>
+</div>
+<p>and see that our <code>library</code> directory is first.</p>
+<p>If we install <code>future</code>, it goes into this directory:</p>
+<div class="codewrapper sourceCode" id="cb24">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"future"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Installing package into `/mnt/ufs18/home-237/k0068027/r_workshop/library`
+(as `lib` is unspecified)</code></pre>
+</div>
+<p>One important note: if you share a project like this with anyone in
+the future, <strong>don’t</strong> share the library directory. Other
+people may be using different operating systems that these downloaded
+packages won’t work on, and libraries can grow in size very quickly! So
+long as you share the setup files, they can download them on their own.
+Again though, the better way is to use a package manager like
+<code>renv</code> and share the files with all of the necessary
+packages.</p>
+</div>
+</div>
+</div>
+</div>
 <!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
 </section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
-        <a class="chapter-link" href="../instructor/r-command-line.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="../instructor/index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link" href="../instructor/rstudio-ondemand.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
+        <a class="chapter-link float-end" href="../instructor/r-command-line.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
-        <a class="chapter-link" href="../instructor/r-command-line.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous: Using R on the</a>
-        <a class="chapter-link float-end" href="../instructor/index.html" rel="next">Next... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link" href="../instructor/rstudio-ondemand.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous: Accessing RStudio</a>
+        <a class="chapter-link float-end" href="../instructor/r-command-line.html" rel="next">Next: Using R on the... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
     </nav></div> <!-- / div.primary-content.col-xs-12 -->
 <!-- END:   inst/pkgdown/templates/content-instructor.html-->
