@@ -256,5 +256,79 @@ In fact, R checks for them in a set order:
 2. In your home directory.
 3. In a global directory where R is installed. On the HPCC, for version 4.0.3, this is the file `/opt/software/R/4.0.3-foss-2020a/lib64/R/etc/Renviron`.
 
-This means that you can setup per project profile and environment files, and use them by starting R in those directories. However, RStudio usually starts R in your home directory. Instead, the most effective way to achieve this is through RStudio projects.
+This means that you can setup per project profile and environment files, and use them by starting R in those directories. However, RStudio usually starts R in your home directory. Instead, the most effective way to achieve this is through RStudio Projects.
 
+Start by creating an RStudio Project with button that looks like a plus sign on top of a cube near the Edit menu.
+
+![](fig/rstudio-project-button.png){alt="The new RStudio Project button in RStudio"}
+
+Select New Directory, then New Project from the options.
+Under Directory name, use `r_workshop`, and make sure that it's a subdirectory of your home directory `~`.
+We'll leave the other options alone for now, but note that RStudio will integrate nicely into a workflow using git and GitHub!
+Click Create Project to finish.
+
+Your new RStudio Project will be loaded. This means a few things:
+
+1. A new session of R will be started in the project directory.
+2. This directory will be your new working directory (check `getwd()`!).
+3. The file browser has moved to this directory.
+4. A file called `r_workshop.Rproj` has been created. This file saves some options for how you edit your project in RStudio.
+
+At any time, you can navigate to your project directory in the RStudio file browser and click the `.Rproj` file to load up this project or any other.
+Now that we have this set up, we could create a local `.Rprofile` or `.Renviron` file just for this project.
+
+If you share your project, you can share any of these files as well (including your `.Rproj`) so others can use it too!
+For this reason, it's generally good practice for any file names you use to be relative to your project directory.
+This way, it doesn't matter what anyone else's setup is like outside of the working directory, it's just the inner workings that matter.
+
+:::::::::::::::::::::::::::::::: challenge
+
+## A mini package isolation solution
+
+Suppose you're working on a project with some super special versions of packages that you don't want to mess up other packages that you'll use in other projects.
+The right way to do this is with a package manager like [`packrat`](https://rstudio.github.io/packrat/) or the newer [`renv`](https://rstudio.github.io/renv/articles/renv.html).
+But we'll create a quick approximation.
+
+Set your `R_LIBS_USER` environment variable to point to a directory called `library` in your `r_workshop` directory.
+Make sure that this **only** happens when you start R in your `r_workshop` directory, and not always!
+
+Restart R, check your work with the `.libPaths()`, and install the package `future`.
+This package won't be available anywhere outside of this project.
+
+:::::::::::::::::: solution
+
+Create the file `~/r_workshop/.Renviron` with the following line
+
+```text
+R_LIBS_USER="./library"
+```
+
+Restarting R we check our library paths
+
+```r
+.libPaths()
+```
+```output
+[1] "/mnt/ufs18/home-237/k0068027/r_workshop/library" 
+[2] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"
+```
+
+and see that our `library` directory is first.
+
+If we install `future`, it goes into this directory:
+
+```r
+install.packages("future")
+```
+```output
+Installing package into `/mnt/ufs18/home-237/k0068027/r_workshop/library`
+(as `lib` is unspecified)
+```
+One important note: if you share a project like this with anyone in the future, **don't** share the library directory.
+Other people may be using different operating systems that these downloaded packages won't work on, and libraries can grow in size very quickly!
+So long as you share the setup files, they can download them on their own.
+Again though, the better way is to use a package manager like `renv` and share the files with all of the necessary packages.
+
+:::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::
