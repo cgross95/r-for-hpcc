@@ -222,6 +222,18 @@
 </div>
 <!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="managing-r-env-packages.html">5. Managing R package installation and environment</a>
+    </div>
+<!--/div.accordion-header-->
+        
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -342,7 +354,7 @@ reinforce the objectives.</li>
   Instructor Note
   </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -376,7 +388,7 @@ View”</p>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -407,7 +419,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -535,7 +547,7 @@ reinforce the objectives.</li>
   Instructor Note
   </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -569,7 +581,7 @@ View”</p>
   Output
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -600,7 +612,7 @@ challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1341,6 +1353,356 @@ script</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
  -->
+</section></section><section id="aio-managing-r-env-packages"><p>Content from <a href="managing-r-env-packages.html">Managing R package installation and environment</a></p>
+<hr>
+<p> Last updated on 2023-06-15 | 
+        
+        <a href="https://github.com/cgross95/r-for-hpcc/edit/main/episodes/managing-r-env-packages.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<p>Estimated time <i aria-hidden="true" data-feather="clock"></i> 12 minutes </p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right"> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>How do you write a lesson using R Markdown and
+<a href="https://carpentries.github.io/sandpaper/" class="external-link">sandpaper</a>?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Explain how to use markdown with the new lesson template</li>
+<li>Demonstrate how to include pieces of code, figures, and nested
+challenge blocks</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="libraries"><h2 class="section-heading">Libraries<a class="anchor" aria-label="anchor" href="#libraries"></a>
+</h2>
+<hr class="half-width">
+<p>The HPCC has multiple versions of R installed, and many of those
+versions have a large number of R packages pre-installed. But there will
+come a time when your workflow requires a new package that isn’t already
+installed. For this, you can use R’s built-in
+<code>install.packages</code> function.</p>
+<p>Before we do that though, we should check which libraries we have
+access to. We can do this by typing <code>.libPaths()</code> into the R
+console:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">.libPaths</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"</code></pre>
+</div>
+<p>Depending on whether you’ve used R before and some behind the scenes
+setup, the output may be different for you. However, this directory
+should always be one entry in your <code>.libPaths()</code>, and points
+to all of the packages that are pre-installed on the HPCC. When you use
+<code>install.packages()</code> in the future, by default, it will
+install to the first entry in your <code>.libPaths()</code>.</p>
+<div id="whats-the-difference-between-a-library-and-a-package" class="callout callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div id="whats-the-difference-between-a-library-and-a-package" class="callout-inner">
+<h3 class="callout-title">What’s the difference between a library and a
+package?<a class="anchor" aria-label="anchor" href="#whats-the-difference-between-a-library-and-a-package"></a>
+</h3>
+<div class="callout-content">
+<p>A library is just a collection of packages. When you use
+<code>library(&lt;package&gt;)</code>, you are telling R to look in your
+libraries for the desired package. When you use
+<code>install.packages(&lt;package&gt;)</code>, you are telling R to
+install the desired package into the first library on your
+<code>.libPaths()</code>.</p>
+</div>
+</div>
+</div>
+</section><section id="installing-packages"><h2 class="section-heading">Installing packages<a class="anchor" aria-label="anchor" href="#installing-packages"></a>
+</h2>
+<hr class="half-width">
+<p>Now, let’s try to install a package:</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"cowsay"</span><span class="op">)</span></span></code></pre>
+</div>
+<pre><code>Warning in install.packages :
+  'lib = "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"' is not writable
+Would you like to use a personal library instead? (yes/No/cancel)</code></pre>
+<p>R detects that our first available library is not writable by users
+(this is because it’s shared by everyone on the HPCC). Instead, it
+offers to create a personal library for you and install the package
+there. Type <code>yes</code>, and you will be asked to create a new
+personal library at the default location</p>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Would you like to create a personal library
+‘~/R/x86_64-pc-linux-gnu-library/4.0’
+to install packages into? (yes/No/cancel)</code></pre>
+</div>
+<p>Type yes again, and this will become your new personal library.</p>
+<div id="do-you-already-have-a-personal-library" class="callout callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div id="do-you-already-have-a-personal-library" class="callout-inner">
+<h3 class="callout-title">Do you already have a personal library?<a class="anchor" aria-label="anchor" href="#do-you-already-have-a-personal-library"></a>
+</h3>
+<div class="callout-content">
+<p>If your <code>.libPaths()</code> had a local directory before the one
+in <code>/opt/software</code>, you won’t need to follow the preceding
+steps.</p>
+</div>
+</div>
+</div>
+<p>You will then be asked to select a CRAN mirror. This is the location
+where the package is downloaded from. Usually, <code>71</code> is a good
+choice for us because it’s from the University of Michigan (closer means
+faster downloads).</p>
+<p>R will download and install the package. We can now use it like
+normal! From the R console:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">cowsay</span><span class="op">)</span></span>
+<span><span class="fu">say</span><span class="op">(</span><span class="st">"Hello world!"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+ -------------- 
+Hello world! 
+ --------------
+    \
+      \
+        \
+            |\___/|
+          ==) ^Y^ (==
+            \  ^  /
+             )=*=(
+            /     \
+            |     |
+           /| | | |\
+           \| | |_|/\
+      jgs  //_// ___/
+               \_)
+  </code></pre>
+</div>
+</section><section id="managing-your-environment"><h2 class="section-heading">Managing your environment<a class="anchor" aria-label="anchor" href="#managing-your-environment"></a>
+</h2>
+<hr class="half-width">
+<p>Let’s summarize what happened:</p>
+<ol style="list-style-type: decimal">
+<li>We installed a package.</li>
+<li>The first location in <code>.libPaths()</code> wasn’t writable.</li>
+<li>So we created a personal library.</li>
+<li>The new location was added to our <code>.libPaths()</code>
+</li>
+</ol>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">.libPaths</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] "/mnt/ufs18/home-237/k0068027/R/x86_64-pc-linux-gnu-library/4.0"
+[2] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library" </code></pre>
+</div>
+<p>What if in the future you don’t want to use this default local
+library? Or you want to use one with a different name? R has an
+environment variable exactly for this: <code>R_LIBS_USER</code>! If this
+environment variable is set before you start R, it will use the value as
+your personal library. This means, it will show up first on
+<code>.libPaths()</code> and will be the default location for
+<code>install.packages</code> to use.</p>
+<p>But how do we set it? If we’re running R from the command line (which
+we’ll <a href="r-command-line.html">talk about later</a>), you can
+export this variable in the command line before you start R:</p>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">R_LIBS_USER</span><span class="op">=</span><span class="st">"~/Rlibs"</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre>
+</div>
+<p>But not only will we have to do this every time we run R, this
+process is also hidden away behind the scenes when we use RStudio from
+OnDemand! There’s another option: the <code>.Renviron</code> file.
+Before R starts up (no matter if it’s from the command line or Rstudio),
+it will look at all the environment variables in this file and set
+them.</p>
+<p>Let’s practice. In RStudio, open a new Text File and type</p>
+<pre class="text"><code><span><span class="va">R_LIBS_USER</span><span class="op">=</span><span class="st">"~/Rlibs"</span></span></code></pre>
+<p>Then save this file in your home directory with the name
+<code>.Renviron</code>. Don’t forget the leading <code>.</code>!</p>
+<p>In the Session menu of RStudio, click Restart R. Now, let’s check our
+<code>.libPaths()</code>:</p>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">.libPaths</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<pre><code>[1] "/mnt/ufs18/home-237/k0068027/Rlibs"              
+[2] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"</code></pre>
+<p>Our new library is first! If we try and load <code>cowsay</code>, it
+doesn’t exist:</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">cowsay</span><span class="op">)</span></span></code></pre>
+</div>
+<pre><code>Error in library(cowsay) : there is no package called 'cowsay'</code></pre>
+<p>This is because it’s in the autogenerated personal library, not
+<code>~/Rlibs</code>. However, we can install it into our new library
+with no problems.</p>
+<p>Before we do that though, let’s talk about another file that R looks
+at when it starts up: <code>.Rprofile</code>. This file contains
+commands that R will run before anything you run.</p>
+<p>Here’s an example: setting the CRAN mirror is annoying to do every
+time. We can do this before we install a package with the R command</p>
+<div class="codewrapper sourceCode" id="cb16">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">options</span><span class="op">(</span>repos <span class="op">=</span> <span class="st">"https://repo.miserver.it.umich.edu/cran/"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Let’s put this in our <code>.Rprofile</code> so it automatically
+happens before any R session starts up. As before, use RStudio to open a
+new Text File and type</p>
+<pre class="text"><code><span><span class="fu">local</span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">options</span><span class="op">(</span>repos <span class="op">=</span> <span class="st">"https://repo.miserver.it.umich.edu/cran/"</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre>
+<p>The <code>local</code> part ensures that no output from code we write
+is available to us in the R session: just the options get set. It’s good
+practice to put any code you write in your <code>.Rprofile</code> in a
+call to <code>local</code> to keep R from accidentally loading any large
+objects which slows down startup.</p>
+<p>Save this in your home directory as <code>.Rprofile</code> and
+restart R as before. Now install <code>cowsay</code>:</p>
+<div class="codewrapper sourceCode" id="cb18">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"cowsay"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Installing package into '/mnt/ufs18/home-237/k0068027/Rlibs'
+(as 'lib' is unspecified)
+also installing the dependencies 'fortunes', 'rmsfact'
+...</code></pre>
+</div>
+<p>It installs into our specified personal library, and didn’t ask for a
+mirror!</p>
+<div id="startup-and-shutdown-code" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="startup-and-shutdown-code" class="callout-inner">
+<h3 class="callout-title">Startup and shutdown code<a class="anchor" aria-label="anchor" href="#startup-and-shutdown-code"></a>
+</h3>
+<div class="callout-content">
+<p>The functions <code>.First</code> and <code>.Last</code> can be
+defined in the <code>.Rprofile</code> file to run any code before
+starting and after ending an R session respectively. Define these
+functions so that R will print <code>### Hello &lt;user&gt; ###</code>
+at the beginning of an R session and
+<code>### Goodby &lt;user&gt; ###</code> at the end (where
+<code>&lt;user&gt;</code> is your username).</p>
+<p>Restart your R session to test your solution.</p>
+<p>As a bonus, use <code>Sys.getenv</code> and the <code>USER</code>
+environment variable to say hello and goodbye to whoever is using the
+<code>.Rprofile</code>.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">
+  Show me the solution
+  </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb20">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">.First</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu">cat</span><span class="op">(</span><span class="st">"### Hello"</span>, <span class="fu">Sys.getenv</span><span class="op">(</span><span class="st">"USER"</span><span class="op">)</span>, <span class="st">"###\n"</span><span class="op">)</span></span>
+<span><span class="va">.Last</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu">cat</span><span class="op">(</span><span class="st">"### Goodbye"</span>, <span class="fu">Sys.getenv</span><span class="op">(</span><span class="st">"USER"</span><span class="op">)</span>, <span class="st">"###\n"</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="back-to-basics" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="back-to-basics" class="callout-inner">
+<h3 class="callout-title">Back to basics<a class="anchor" aria-label="anchor" href="#back-to-basics"></a>
+</h3>
+<div class="callout-content">
+<p>Keeping very specialized code in your <code>.Rprofile</code> and
+<code>.Renviron</code> files can make it harder to execute your code on
+other computers. For now, move <code>.Rprofile</code> to
+<code>.Rprofile.bak</code> and <code>.Renviron</code> to
+<code>.Renviron.bak</code> so you’re at a clean slate going forward. In
+the future, you can reference the changes you’ve made in the
+<code>.bak</code> files and choose what to keep in your own files.</p>
+</div>
+</div>
+</div>
+</section><section id="project-and-package-management"><h2 class="section-heading">Project and package management<a class="anchor" aria-label="anchor" href="#project-and-package-management"></a>
+</h2>
+<hr class="half-width">
+<p>The <code>.Rprofile</code> and <code>.Renviron</code> files don’t
+have to live in your home directory. In fact, R checks for them in a set
+order:</p>
+<ol style="list-style-type: decimal">
+<li>In the directory where R is started.</li>
+<li>In your home directory.</li>
+<li>In a global directory where R is installed. On the HPCC, for version
+4.0.3, this is the file
+<code>/opt/software/R/4.0.3-foss-2020a/lib64/R/etc/Renviron</code>.</li>
+</ol>
+<p>This means that you can setup per project profile and environment
+files, and use them by starting R in those directories. However, RStudio
+usually starts R in your home directory. Instead, the most effective way
+to achieve this is through RStudio projects.</p>
+<!-- 
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use. 
+ -->
 </section></section>
 </div>
     </main>
@@ -1390,8 +1752,8 @@ any links that you are not going to use.
   "url": "https://cgross95.github.io/r-for-hpcc/instructor/aio.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/instructor/aio.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-06-14",
-  "datePublished": "2023-06-14"
+  "dateModified": "2023-06-15",
+  "datePublished": "2023-06-15"
 }
 
   </script><script>

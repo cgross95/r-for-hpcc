@@ -63,6 +63,7 @@ episodes:
 - startup.Rmd
 - rstudio-ondemand.Rmd
 - r-command-line.Rmd
+- managing-r-env-packages.Rmd
 
 # Information for Learners
 learners: 
