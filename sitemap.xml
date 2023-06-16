@@ -58,10 +58,16 @@
     <loc>https://cgross95.github.io/r-for-hpcc/instructor/managing-r-env-packages.html</loc>
   </url>
   <url>
+    <loc>https://cgross95.github.io/r-for-hpcc/instructor/parallelizing-r-code.html</loc>
+  </url>
+  <url>
     <loc>https://cgross95.github.io/r-for-hpcc/instructor/profiles.html</loc>
   </url>
   <url>
     <loc>https://cgross95.github.io/r-for-hpcc/instructor/r-command-line.html</loc>
+  </url>
+  <url>
+    <loc>https://cgross95.github.io/r-for-hpcc/instructor/r-slurm-jobs.html</loc>
   </url>
   <url>
     <loc>https://cgross95.github.io/r-for-hpcc/instructor/reference.html</loc>
@@ -88,10 +94,16 @@
     <loc>https://cgross95.github.io/r-for-hpcc/managing-r-env-packages.html</loc>
   </url>
   <url>
+    <loc>https://cgross95.github.io/r-for-hpcc/parallelizing-r-code.html</loc>
+  </url>
+  <url>
     <loc>https://cgross95.github.io/r-for-hpcc/profiles.html</loc>
   </url>
   <url>
     <loc>https://cgross95.github.io/r-for-hpcc/r-command-line.html</loc>
+  </url>
+  <url>
+    <loc>https://cgross95.github.io/r-for-hpcc/r-slurm-jobs.html</loc>
   </url>
   <url>
     <loc>https://cgross95.github.io/r-for-hpcc/reference.html</loc>

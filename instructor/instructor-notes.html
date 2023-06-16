@@ -177,7 +177,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Using RMarkdown</a>
+        <a href="rstudio-ondemand.html">1. Accessing RStudio through OnDemand</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -189,7 +189,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="rstudio-ondemand.html">2. Accessing RStudio through OnDemand</a>
+        <a href="managing-r-env-packages.html">2. Managing R package installation and environment</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -201,7 +201,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="managing-r-env-packages.html">3. Managing R package installation and environment</a>
+        <a href="r-command-line.html">3. Using R on the command line</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -213,7 +213,19 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="r-command-line.html">4. Using R on the command line</a>
+        <a href="parallelizing-r-code.html">4. Parallelizing your R code with <code>future</code></a>
+    </div>
+<!--/div.accordion-header-->
+        
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="r-slurm-jobs.html">5. r-slurm-jobs</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -283,16 +295,7 @@ any links that you are not going to use.
  -->
 
 
-      <section id="aggregate-instructor-notes"><section id="introduction"><h2 class="section-heading"><a href="introduction.html">Using RMarkdown</a></h2>
-<hr class="half-width">
-<h3 id="introduction-headingInstructor1">
-<a href="introduction.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#introduction-headingInstructor1"></a>
-</h3>
-<p>Inline instructor notes can help inform instructors of timing
-challenges associated with the lessons. They appear in the “Instructor
-View”</p>
-<hr>
-<br></section><section id="rstudio-ondemand"><h2 class="section-heading"><a href="rstudio-ondemand.html">Accessing RStudio through OnDemand</a></h2>
+      <section id="aggregate-instructor-notes"><section id="rstudio-ondemand"><h2 class="section-heading"><a href="rstudio-ondemand.html">Accessing RStudio through OnDemand</a></h2>
 <hr class="half-width">
 <h3 id="rstudio-ondemand-headingInstructor1">
 <a href="rstudio-ondemand.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#rstudio-ondemand-headingInstructor1"></a>
@@ -303,7 +306,17 @@ View”</p>
 <hr>
 <br></section><section id="managing-r-env-packages"><h2 class="section-heading"><a href="managing-r-env-packages.html">Managing R package installation and environment</a></h2>
 <hr class="half-width"></section><section id="r-command-line"><h2 class="section-heading"><a href="r-command-line.html">Using R on the command line</a></h2>
-<hr class="half-width"></section></section>
+<hr class="half-width"></section><section id="parallelizing-r-code"><h2 class="section-heading"><a href="parallelizing-r-code.html">Parallelizing your R code with <code>future</code></a></h2>
+<hr class="half-width"></section><section id="r-slurm-jobs"><h2 class="section-heading"><a href="r-slurm-jobs.html">r-slurm-jobs</a></h2>
+<hr class="half-width">
+<h3 id="r-slurm-jobs-headingInstructor1">
+<a href="r-slurm-jobs.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#r-slurm-jobs-headingInstructor1"></a>
+</h3>
+<p>Inline instructor notes can help inform instructors of timing
+challenges associated with the lessons. They appear in the “Instructor
+View”</p>
+<hr>
+<br></section></section>
 </div>
     </main>
 </div>
@@ -328,7 +341,7 @@ View”</p>
         <p>Materials licensed under <a href="../LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">Template licensed under CC-BY 4.0</a> by <a href="https://carpentries.org" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.12.3" class="external-link">sandpaper (0.12.3)</a>,
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.12.4" class="external-link">sandpaper (0.12.4)</a>,
         <a href="https://github.com/carpentries/pegboard" class="external-link">pegboard (0.5.3)</a>,
       and <a href="https://github.com/cgross95/varnish/tree/icer" class="external-link">varnish (0.2.17)</a>.</p>
 			</div>
@@ -352,8 +365,8 @@ View”</p>
   "url": "https://cgross95.github.io/r-for-hpcc/instructor/instructor-notes.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/instructor/instructor-notes.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-06-15",
-  "datePublished": "2023-06-15"
+  "dateModified": "2023-06-16",
+  "datePublished": "2023-06-16"
 }
 
   </script><script>

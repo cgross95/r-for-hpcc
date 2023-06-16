@@ -85,11 +85,11 @@
   R for the HPCC
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 75%" class="percentage">
-    75%
+<aside class="col-md-12 lesson-progress"><div style="width: 40%" class="percentage">
+    40%
   </div>
   <div class="progress software">
-    <div class="progress-bar software" role="progressbar" style="width: 75%" aria-valuenow="75" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar software" role="progressbar" style="width: 40%" aria-valuenow="40" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -144,7 +144,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Using RMarkdown</a>
+        <a href="rstudio-ondemand.html">1. Accessing RStudio through OnDemand</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -153,16 +153,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="rstudio-ondemand.html">2. Accessing RStudio through OnDemand</a>
-    </div><!--/div.accordion-header-->
-        
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush4">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading4">
-        <a href="managing-r-env-packages.html">3. Managing R package installation and environment</a>
+        <a href="managing-r-env-packages.html">2. Managing R package installation and environment</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -174,7 +165,7 @@
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
-        4. Using R on the command line
+        3. Using R on the command line
         </span>
       </button>
     </div><!--/div.accordion-header-->
@@ -187,6 +178,24 @@
 <li><a href="#writing-scripts-that-take-command-line-arguments">Writing scripts that take command line arguments</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
+        
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="parallelizing-r-code.html">4. Parallelizing your R code with <code>future</code></a>
+    </div><!--/div.accordion-header-->
+        
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="r-slurm-jobs.html">5. r-slurm-jobs</a>
+    </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -233,16 +242,16 @@
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Previous and Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/managing-r-env-packages.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="../instructor/index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/parallelizing-r-code.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
         <a class="chapter-link" href="../instructor/managing-r-env-packages.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous: Managing R package</a>
-        <a class="chapter-link float-end" href="../instructor/index.html" rel="next">Next... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/parallelizing-r-code.html" rel="next">Next: Parallelizing your R... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Using R on the command line</h1>
-        <p> Last updated on 2023-06-14 | 
+        <p> Last updated on 2023-06-16 | 
         
         <a href="https://github.com/cgross95/r-for-hpcc/edit/main/episodes/r-command-line.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -285,8 +294,8 @@ command</li>
 </h2>
 <hr class="half-width"><p>Up to now, we’ve been using RStudio through OnDemand to write and run
 R code on the HPCC. Now, we’ll do the same things we’ve been doing, but
-solely through the command line. This will allow us to eventually <a href="tbd">submit SLURM batch scripts</a> to run our code on compute
-nodes.</p>
+solely through the command line. This will allow us to eventually <a href="r-slurm-jobs.html">submit SLURM batch scripts</a> to run our code
+on compute nodes.</p>
 <p>For now, we’ll start by running everything on a development node.
 Using our <a href="rstudio-ondemand.html#ssh">previous instructions to
 SSH into a development node</a>, we can get a command line running on a
@@ -443,10 +452,14 @@ Type 'q()' to quit R.
 </div>
 <p>Great! We now have an R console where we can run short lines of code,
 just like from RStudio. As the output from <code>R</code> shows, type
-<code>q()</code> to quit and return back to the command line. If you’re
-asked to save the workspace image, it’s best practice to say no since
-this can lead to long load times and less reproducible sessions in the
-future.</p>
+<code>q()</code> to quit and return back to the command line.</p>
+<p>If you’re asked to save the workspace image, it’s best practice to
+say no since this can lead to long load times and less reproducible
+sessions in the future. In fact, you can use the <code>--vanilla</code>
+option when starting R to ensure it ignores things like your
+<code>.Renviron</code> and <code>.Rprofile</code> changes. We will use
+this option below to make sure we run our code in the cleanest
+environment possible.</p>
 </section><section id="running-one-liners-and-scripts-with-rscript"><h2 class="section-heading">Running one-liners and scripts with <code>RScript</code><a class="anchor" aria-label="anchor" href="#running-one-liners-and-scripts-with-rscript"></a>
 </h2>
 <hr class="half-width"><p>The R console is great for interactive work. But sometimes we might
@@ -457,7 +470,7 @@ using the <code>-e</code> flag (which stands for “expression”):</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'date()'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> <span class="at">-e</span> <span class="st">'date()'</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -472,7 +485,7 @@ quotient and remainder of 128 divided by 11:</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'128 %/% 11'</span> <span class="at">-e</span> <span class="st">'128 %% 11'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> <span class="at">-e</span> <span class="st">'128 %/% 11'</span> <span class="at">-e</span> <span class="st">'128 %% 11'</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -498,7 +511,10 @@ specify the entire path name.</p>
 </div>
 <p>This is the equivalent of clicking the Source button while we have a
 R script open in RStudio, or running
-<code>source('~/r_workshop/test_serial.R')</code> from an R console.</p>
+<code>source('~/r_workshop/test_serial.R')</code> from an R console.
+Notice that we didn’t use the <code>--vanilla</code> option here. This
+ensures that we use the local library setup in the project
+directory.</p>
 </section><section id="writing-scripts-that-take-command-line-arguments"><h2 class="section-heading">Writing scripts that take command line arguments<a class="anchor" aria-label="anchor" href="#writing-scripts-that-take-command-line-arguments"></a>
 </h2>
 <hr class="half-width"><p>Often, you will want to be able to pass extra arguments to your
@@ -536,7 +552,7 @@ arguments:</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> command_args.R a b c</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> command_args.R a b c</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -567,12 +583,12 @@ check out <a href="https://cran.r-project.org/web/packages/optparse/" class="ext
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'for(i in 1:10) print(i)'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> <span class="at">-e</span> <span class="st">'for(i in 1:10) print(i)'</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -598,12 +614,12 @@ function <code>strtoi</code>.</p>
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'help(strtoi)'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> <span class="at">-e</span> <span class="st">'help(strtoi)'</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -629,7 +645,7 @@ prints the numbers from 1 to that integer.</p>
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -658,6 +674,8 @@ prints the numbers from 1 to that integer.</p>
 load a version of R on the HPCC</li>
 <li>Run <code>R</code> from the command line to start an interactive R
 console</li>
+<li>Use the <code>--vanilla</code> option to ignore extra configuration
+files</li>
 <li>Run <code>Rscript</code> to run an R script</li>
 <li>Use <code>commandArgs</code> to parse command line arguments in an R
 script</li>
@@ -671,12 +689,12 @@ any links that you are not going to use.
 </section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/managing-r-env-packages.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="../instructor/index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/parallelizing-r-code.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
         <a class="chapter-link" href="../instructor/managing-r-env-packages.html" rel="prev"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous: Managing R package</a>
-        <a class="chapter-link float-end" href="../instructor/index.html" rel="next">Next... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="../instructor/parallelizing-r-code.html" rel="next">Next: Parallelizing your R... <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
     </nav></div> <!-- / div.primary-content.col-xs-12 -->
 <!-- END:   inst/pkgdown/templates/content-instructor.html-->
@@ -698,7 +716,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="../LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">Template licensed under CC-BY 4.0</a> by <a href="https://carpentries.org" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.12.3" class="external-link">sandpaper (0.12.3)</a>,
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.12.4" class="external-link">sandpaper (0.12.4)</a>,
         <a href="https://github.com/carpentries/pegboard" class="external-link">pegboard (0.5.3)</a>,
       and <a href="https://github.com/cgross95/varnish/tree/icer" class="external-link">varnish (0.2.17)</a>.</p>
 			</div>
@@ -721,8 +739,8 @@ any links that you are not going to use.
   "url": "https://cgross95.github.io/r-for-hpcc/instructor/r-command-line.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/instructor/r-command-line.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-06-14",
-  "datePublished": "2023-06-15"
+  "dateModified": "2023-06-16",
+  "datePublished": "2023-06-16"
 }
 
   </script><script>

@@ -86,11 +86,11 @@
   R for the HPCC
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 50%" class="percentage">
-    50%
+<aside class="col-md-12 lesson-progress"><div style="width: 20%" class="percentage">
+    20%
   </div>
   <div class="progress software">
-    <div class="progress-bar software" role="progressbar" style="width: 50%" aria-valuenow="50" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar software" role="progressbar" style="width: 20%" aria-valuenow="20" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -145,16 +145,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Using RMarkdown</a>
-    </div><!--/div.accordion-header-->
-        
-  </div><!--/div.accordion-item-->
-</div><!--/div.accordion-flush-->
-
-<div class="accordion accordion-flush" id="accordionFlush3">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading3">
-        <a href="rstudio-ondemand.html">2. Accessing RStudio through OnDemand</a>
+        <a href="rstudio-ondemand.html">1. Accessing RStudio through OnDemand</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -166,7 +157,7 @@
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsecurrent" aria-expanded="true" aria-controls="flush-collapsecurrent">
         <span class="visually-hidden">Current Chapter</span>
         <span class="current-chapter">
-        3. Managing R package installation and environment
+        2. Managing R package installation and environment
         </span>
       </button>
     </div><!--/div.accordion-header-->
@@ -177,8 +168,19 @@
 <li><a href="#installing-packages">Installing packages</a></li>
 <li><a href="#managing-your-environment">Managing your environment</a></li>
 <li><a href="#project-and-package-management">Project and package management</a></li>
+<li><a href="#best-practices-for-a-portable-project-and-when-and-how-to-break-the-rules">Best practices for a portable project (and when and how to break the
+rules)</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
+        
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush4">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading4">
+        <a href="r-command-line.html">3. Using R on the command line</a>
+    </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -186,7 +188,16 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="r-command-line.html">4. Using R on the command line</a>
+        <a href="parallelizing-r-code.html">4. Parallelizing your R code with <code>future</code></a>
+    </div><!--/div.accordion-header-->
+        
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="r-slurm-jobs.html">5. r-slurm-jobs</a>
     </div><!--/div.accordion-header-->
         
   </div><!--/div.accordion-item-->
@@ -243,7 +254,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Managing R package installation and environment</h1>
-        <p> Last updated on 2023-06-15 | 
+        <p> Last updated on 2023-06-16 | 
         
         <a href="https://github.com/cgross95/r-for-hpcc/edit/main/episodes/managing-r-env-packages.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -262,8 +273,9 @@
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>How do you write a lesson using R Markdown and
-<a href="https://carpentries.github.io/sandpaper/" class="external-link">sandpaper</a>?</li>
+<ul><li>How can you install and organize packages in R?</li>
+<li>What are some best practices for setting up a project on the
+HPCC?</li>
 </ul></div>
 </div>
 </div>
@@ -271,9 +283,11 @@
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Explain how to use markdown with the new lesson template</li>
-<li>Demonstrate how to include pieces of code, figures, and nested
-challenge blocks</li>
+<ul><li>Explain where packages are kept and how to customize the
+location</li>
+<li>Demonstrate how to setup an RStudio project</li>
+<li>Share ways to effectively organize your projects for
+collaboration</li>
 </ul></div>
 </div>
 </div>
@@ -398,6 +412,39 @@ Hello world!
                \_)
   </code></pre>
 </div>
+<div id="do-your-packages-require-external-dependencies" class="callout callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div id="do-your-packages-require-external-dependencies" class="callout-inner">
+<h3 class="callout-title">Do your packages require external
+dependencies?<a class="anchor" aria-label="anchor" href="#do-your-packages-require-external-dependencies"></a>
+</h3>
+<div class="callout-content">
+<p>Often, packages will require some extra software to install, run, or
+both. Getting external dependencies lined up correctly can be a big
+challenge, especially on the HPCC. Here are some general tips:</p>
+<ol style="list-style-type: decimal"><li>Read the documentation for the package you’re using and take note of
+any dependencies you need and their versions. This information is also
+included under SystemRequirements on a package’s <a href="https://cran.r-project.org/" class="external-link">CRAN</a> page.</li>
+<li>Make sure that software is available before you try to install/use
+the R package. This could involve:
+<ul><li>Loading it through the HPCC module system. <strong>Note</strong>:
+This is not possible (yet) in RStudio on the HPCC. You will have to <a href="r-command-line.html">use R through the command line</a>.</li>
+<li>Installing it yourself in a way that R can find it.</li>
+</ul></li>
+<li>If a package’s setup instructions suggest something like
+<code>sudo apt-get ...</code> or <code>sudo dnf install ...</code> under
+the Linux instructions, this is a sign that it needs external
+dependencies. These methods won’t work for installation on the HPCC;
+instead, look for and load HPCC modules for similar names.</li>
+<li>Sometimes you’ll need to load more than one module, but they will
+have dependencies that conflict with each other (or even R itself!). In
+this case, <a href="https://contact.icer.msu.edu" class="external-link">contact the research
+consultants at ICER</a> and we will do our best to help you out.</li>
+</ol></div>
+</div>
+</div>
 </section><section id="managing-your-environment"><h2 class="section-heading">Managing your environment<a class="anchor" aria-label="anchor" href="#managing-your-environment"></a>
 </h2>
 <hr class="half-width"><p>Let’s summarize what happened:</p>
@@ -519,7 +566,7 @@ defined in the <code>.Rprofile</code> file to run any code before
 starting and after ending an R session respectively. Define these
 functions so that R will print <code>### Hello &lt;user&gt; ###</code>
 at the beginning of an R session and
-<code>### Goodby &lt;user&gt; ###</code> at the end (where
+<code>### Goodbye &lt;user&gt; ###</code> at the end (where
 <code>&lt;user&gt;</code> is your username).</p>
 <p>Restart your R session to test your solution.</p>
 <p>As a bonus, use <code>Sys.getenv</code> and the <code>USER</code>
@@ -601,11 +648,7 @@ this project or any other. Now that we have this set up, we could create
 a local <code>.Rprofile</code> or <code>.Renviron</code> file just for
 this project.</p>
 <p>If you share your project, you can share any of these files as well
-(including your <code>.Rproj</code>) so others can use it too! For this
-reason, it’s generally good practice for any file names you use to be
-relative to your project directory. This way, it doesn’t matter what
-anyone else’s setup is like outside of the working directory, it’s just
-the inner workings that matter.</p>
+(including your <code>.Rproj</code>) so others can use it too!</p>
 <div id="a-mini-package-isolation-solution" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -681,6 +724,86 @@ packages.</p>
 </div>
 </div>
 </div>
+</section><section id="best-practices-for-a-portable-project-and-when-and-how-to-break-the-rules"><h2 class="section-heading">Best practices for a portable project (and when and how to break the
+rules)<a class="anchor" aria-label="anchor" href="#best-practices-for-a-portable-project-and-when-and-how-to-break-the-rules"></a>
+</h2>
+<hr class="half-width"><p>It is very likely that you are not the only person working with your
+code: there are other people in your lab or outside that you should be
+ready to share your analyses with. There are a few ways to setup your R
+project to make things less painful to share.</p>
+<p>And even if you’re not collaborating, you’re still sharing with
+future you! Staying organized will help you return to an old project and
+get up and running faster.</p>
+<p>Tips:</p>
+<ul><li>Don’t leave <code>install.packages</code> commands in your scripts.
+Run them from the R console, and document what you need so that others
+can install them themselves later. Or better yet, get <a href="https://rstudio.github.io/renv/articles/renv.html" class="external-link">a package
+isolation solution</a> to do it for you, as discussed above.</li>
+<li>Organize the files in your project into separate folders. A <a href="https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf" class="external-link">commonly
+used setup</a> is something like
+<ul><li>
+<code>data/</code> for raw data that you shouldn’t ever change</li>
+<li>
+<code>results/</code> for generated files and output (e.g., you
+should be able to delete this folder and exactly regenerate it from your
+code.)</li>
+<li>
+<code>src/</code> for your code, like <code>.R</code> files</li>
+<li>
+<code>bin/</code> for any other programs you need to run your
+analyses</li>
+<li>
+<code>doc/</code> for text documents associated with your
+project</li>
+</ul></li>
+<li>Use relative paths inside your project. Instead of using
+<code>C:\Users\me\Documents\lab_files\research\experiment1.csv</code>,
+put <code>experiment1.csv</code> into the <code>data/</code> directory
+in your project folder and only reference it as
+<code>data/experiment1.csv</code>.</li>
+<li>Reuse your code. If you need to run the same analysis on two
+different inputs, don’t copy your script and find-and-replace
+<code>data/experiment1.csv</code> with
+<code>data/experiment2.csv</code>. Instead, structure your script as a
+function that takes a filename as input. Then write a script that
+sources the script your function is in and calls that function with two
+different filenames.</li>
+<li>Separate the steps in your analyses into separate scripts (which
+ideally wrap the step into a function). You can chain all of your
+scripts together in one <code>run_all.R</code> script that sets up your
+input files and runs each step on those inputs in order.</li>
+</ul><p>All of this being said, rules of thumb can always be broken, but you
+should have a really good reason to do so. Oftentimes, using a
+supercomputer can be that reason.</p>
+<p>For example, you may be using the HPCC to analyze some very large
+files that wouldn’t be easy to share in a <code>data/</code> directory
+under your project. Maybe these live in your group’s research space on
+the HPCC so you don’t have to copy them around. In this case, it might
+make sense to use an absolute path to this file in your R scripts, e.g.,
+<code>/mnt/research/my_lab/big_experiment/experiment1.csv</code>.</p>
+<p>If you do decide to do this however, make sure you only do it one
+time (e.g., set this path to a variable one time and use that variable
+everywhere), and document where you do it! This will make it easy to
+change if you do ever need to share or move your project or data.</p>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Keypoints<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
+</h3>
+<div class="callout-content">
+<ul><li>The <code>.libPaths()</code> function shows you where R looks for
+and installs packages</li>
+<li>Set the <code>R_LIBS_USER</code> environment variable in the
+<code>.Renviron</code> file to change where R looks for and installs
+libraries</li>
+<li>Add functions and set options in the <code>.Rprofile</code> file to
+customize your R session</li>
+<li>Start R from your project directory and use relative paths</li>
+</ul></div>
+</div>
+</div>
 <!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
@@ -715,7 +838,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">Template licensed under CC-BY 4.0</a> by <a href="https://carpentries.org" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.12.3" class="external-link">sandpaper (0.12.3)</a>,
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.12.4" class="external-link">sandpaper (0.12.4)</a>,
         <a href="https://github.com/carpentries/pegboard" class="external-link">pegboard (0.5.3)</a>,
       and <a href="https://github.com/cgross95/varnish/tree/icer" class="external-link">varnish (0.2.17)</a>.</p>
 			</div>
@@ -738,8 +861,8 @@ any links that you are not going to use.
   "url": "https://cgross95.github.io/r-for-hpcc/managing-r-env-packages.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/managing-r-env-packages.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-06-15",
-  "datePublished": "2023-06-15"
+  "dateModified": "2023-06-16",
+  "datePublished": "2023-06-16"
 }
 
   </script><script>

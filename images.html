@@ -179,7 +179,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Using RMarkdown</a>
+        <a href="rstudio-ondemand.html">1. Accessing RStudio through OnDemand</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -191,7 +191,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="rstudio-ondemand.html">2. Accessing RStudio through OnDemand</a>
+        <a href="managing-r-env-packages.html">2. Managing R package installation and environment</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -203,7 +203,7 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="managing-r-env-packages.html">3. Managing R package installation and environment</a>
+        <a href="r-command-line.html">3. Using R on the command line</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -215,7 +215,19 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="r-command-line.html">4. Using R on the command line</a>
+        <a href="parallelizing-r-code.html">4. Parallelizing your R code with <code>future</code></a>
+    </div>
+<!--/div.accordion-header-->
+        
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="r-slurm-jobs.html">5. r-slurm-jobs</a>
     </div>
 <!--/div.accordion-header-->
         
@@ -277,16 +289,7 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         
         
-<section id="introduction"><h2 class="section-heading"><a href="introduction.html">Using RMarkdown</a></h2>
-<hr class="half-width">
-<h3 id="introduction-figure-1">Figure 1</h3>
-<p aria-hidden="true">Image 1 of 1: ‘pie chart illusion of a pyramid’</p>
-<figure style="text-align: center"><img src="fig/introduction-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid" class="figure mx-auto d-block"><figcaption>
-Sun arise each and every morning
-</figcaption></figure><hr>
-<h3 id="introduction-figure-2">Figure 2</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Blue Carpentries hex person logo with no text.’</p>
-<figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><figcaption>You belong in The Carpentries!</figcaption></figure><hr></section><section id="rstudio-ondemand"><h2 class="section-heading"><a href="rstudio-ondemand.html">Accessing RStudio through OnDemand</a></h2>
+<section id="rstudio-ondemand"><h2 class="section-heading"><a href="rstudio-ondemand.html">Accessing RStudio through OnDemand</a></h2>
 <hr class="half-width">
 <h3 id="rstudio-ondemand-figure-1">Figure 1</h3>
 <p aria-hidden="true">Image 1 of 1: ‘The OnDemand home screen with the Interactive Apps tab expanded to show RStudio’</p>
@@ -316,7 +319,17 @@ Sun arise each and every morning
 <h3 id="managing-r-env-packages-figure-1">Figure 1</h3>
 <p aria-hidden="true">Image 1 of 1: ‘The new RStudio Project button in RStudio’</p>
 <figure><img src="fig/rstudio-project-button.png" alt="The new RStudio Project button in RStudio" class="figure mx-auto d-block"></figure><hr></section><section id="r-command-line"><h2 class="section-heading"><a href="r-command-line.html">Using R on the command line</a></h2>
-<hr class="half-width"></section>
+<hr class="half-width"></section><section id="parallelizing-r-code"><h2 class="section-heading"><a href="parallelizing-r-code.html">Parallelizing your R code with <code>future</code></a></h2>
+<hr class="half-width"></section><section id="r-slurm-jobs"><h2 class="section-heading"><a href="r-slurm-jobs.html">r-slurm-jobs</a></h2>
+<hr class="half-width">
+<h3 id="r-slurm-jobs-figure-1">Figure 1</h3>
+<p aria-hidden="true">Image 1 of 1: ‘pie chart illusion of a pyramid’</p>
+<figure style="text-align: center"><img src="fig/r-slurm-jobs-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid" class="figure mx-auto d-block"><figcaption>
+Sun arise each and every morning
+</figcaption></figure><hr>
+<h3 id="r-slurm-jobs-figure-2">Figure 2</h3>
+<p aria-hidden="true">Image 1 of 1: ‘Blue Carpentries hex person logo with no text.’</p>
+<figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><figcaption>You belong in The Carpentries!</figcaption></figure><hr></section>
 </div>
     </main>
 </div>
@@ -341,7 +354,7 @@ Sun arise each and every morning
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">Template licensed under CC-BY 4.0</a> by <a href="https://carpentries.org" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.12.3" class="external-link">sandpaper (0.12.3)</a>,
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.12.4" class="external-link">sandpaper (0.12.4)</a>,
         <a href="https://github.com/carpentries/pegboard" class="external-link">pegboard (0.5.3)</a>,
       and <a href="https://github.com/cgross95/varnish/tree/icer" class="external-link">varnish (0.2.17)</a>.</p>
 			</div>
@@ -365,8 +378,8 @@ Sun arise each and every morning
   "url": "https://cgross95.github.io/r-for-hpcc/images.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/images.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-06-15",
-  "datePublished": "2023-06-15"
+  "dateModified": "2023-06-16",
+  "datePublished": "2023-06-16"
 }
 
   </script><script>
