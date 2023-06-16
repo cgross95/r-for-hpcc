@@ -20,7 +20,7 @@ exercises: 2
 
 ## Accessing the HPCC through the terminal
 
-Up to now, we've been using RStudio through OnDemand to write and run R code on the HPCC. Now, we'll do the same things we've been doing, but solely through the command line. This will allow us to eventually [submit SLURM batch scripts](tbd) to run our code on compute nodes.
+Up to now, we've been using RStudio through OnDemand to write and run R code on the HPCC. Now, we'll do the same things we've been doing, but solely through the command line. This will allow us to eventually [submit SLURM batch scripts](r-slurm-jobs.Rmd) to run our code on compute nodes.
 
 For now, we'll start by running everything on a development node. Using our [previous instructions to SSH into a development node](rstudio-ondemand.Rmd#ssh), we can get a command line running on a development node. As a reminder, from a personal terminal, this looks something like
 
@@ -159,7 +159,11 @@ Type 'q()' to quit R.
 > 
 ```
 
-Great! We now have an R console where we can run short lines of code, just like from RStudio. As the output from `R` shows, type `q()` to quit and return back to the command line. If you're asked to save the workspace image, it's best practice to say no since this can lead to long load times and less reproducible sessions in the future.
+Great! We now have an R console where we can run short lines of code, just like from RStudio. As the output from `R` shows, type `q()` to quit and return back to the command line. 
+
+If you're asked to save the workspace image, it's best practice to say no since this can lead to long load times and less reproducible sessions in the future.
+In fact, you can use the `--vanilla` option when starting R to ensure it ignores things like your `.Renviron` and `.Rprofile` changes.
+We will use this option below to make sure we run our code in the cleanest environment possible.
 
 ## Running one-liners and scripts with `RScript`
 
@@ -168,7 +172,7 @@ The R console is great for interactive work. But sometimes we might want to just
 First, let's start by sending `Rscript` a single command using the `-e` flag (which stands for "expression"):
 
 ```bash
-Rscript -e 'date()'
+Rscript --vanilla -e 'date()'
 ```
 
 ```output
@@ -180,7 +184,7 @@ We get the same output as if we had run `date()` in an R console or in a script!
 We can run multiple expressions at once. For example, let's get the quotient and remainder of 128 divided by 11:
 
 ```bash
-Rscript -e '128 %/% 11' -e '128 %% 11'
+Rscript --vanilla -e '128 %/% 11' -e '128 %% 11'
 ```
 
 ```output
@@ -200,6 +204,8 @@ TBD
 ```
 
 This is the equivalent of clicking the Source button while we have a R script open in RStudio, or running `source('~/r_workshop/test_serial.R')` from an R console.
+Notice that we didn't use the `--vanilla` option here.
+This ensures that we use the local library setup in the project directory.
 
 
 ## Writing scripts that take command line arguments
@@ -230,7 +236,7 @@ If you're using `nano`, after typing the above code, press `ctrl+o` followed by 
 We can now run our script through `Rscript` with some arguments:
 
 ```bash
-Rscript command_args.R a b c
+Rscript --vanilla command_args.R a b c
 ```
 
 ```output
@@ -248,7 +254,7 @@ Write an Rscript one-liner to print the numbers from 1 to 10.
 :::::::::::::::::::::::: solution
 
 ```bash
-Rscript -e 'for(i in 1:10) print(i)'
+Rscript --vanilla -e 'for(i in 1:10) print(i)'
 ```
 :::::::::::::::::::::::::::::::::
 
@@ -261,7 +267,7 @@ Write an Rscript one-liner to print the `help` for the function `strtoi`.
 :::::::::::::::::::::::: solution
 
 ```bash
-Rscript -e 'help(strtoi)'
+Rscript --vanilla -e 'help(strtoi)'
 ```
 :::::::::::::::::::::::::::::::::
 
@@ -289,6 +295,7 @@ print(i)
 
 - Use `module spider R/<version>` to learn how to load a version of R on the HPCC
 - Run `R` from the command line to start an interactive R console
+- Use the `--vanilla` option to ignore extra configuration files
 - Run `Rscript` to run an R script
 - Use `commandArgs` to parse command line arguments in an R script
 

@@ -58,20 +58,21 @@ contact: 'grosscra@msu.edu'
 # - another-learner.md
 
 # Order of episodes in your lesson
-episodes:
-- introduction.Rmd
+episodes: 
 - rstudio-ondemand.Rmd
 - managing-r-env-packages.Rmd
 - r-command-line.Rmd
+- parallelizing-r-code.Rmd
+- r-slurm-jobs.Rmd
 
 # Information for Learners
-learners:
+learners: 
 
 # Information for Instructors
-instructors:
+instructors: 
 
 # Learner Profiles
-profiles:
+profiles: 
 
 # Customisation ---------------------------------------------
 #
