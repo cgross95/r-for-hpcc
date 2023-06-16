@@ -6,14 +6,16 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- How can you install and organize packages in R?
+- What are some best practices for setting up a project on the HPCC?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Explain where packages are kept and how to customize the location
+- Demonstrate how to setup an RStudio project
+- Share ways to effectively organize your projects for collaboration
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -110,6 +112,25 @@ Hello world!
                \_)
   
 ```
+
+:::::::::::::::::::::::::::::::::: callout
+
+## Do your packages require external dependencies?
+
+Often, packages will require some extra software to install, run, or both.
+Getting external dependencies lined up correctly can be a big challenge, especially on the HPCC.
+Here are some general tips:
+
+1. Read the documentation for the package you're using and take note of any dependencies you need and their versions. This information is also included under SystemRequirements on a package's [CRAN](https://cran.r-project.org/) page.
+2. Make sure that software is available before you try to install/use the R package. This could involve:
+    - Loading it through the HPCC module system. **Note**: This is not possible (yet) in RStudio on the HPCC. You will have to [use R through the command line](r-command-line.Rmd).
+    - Installing it yourself in a way that R can find it.
+3. If a package's setup instructions suggest something like `sudo apt-get ...` or `sudo dnf install ...` under the Linux instructions, this is a sign that it needs external dependencies.
+These methods won't work for installation on the HPCC; instead, look for and load HPCC modules for similar names.
+4. Sometimes you'll need to load more than one module, but they will have dependencies that conflict with each other (or even R itself!).
+In this case, [contact the research consultants at ICER](https://contact.icer.msu.edu) and we will do our best to help you out.
+
+::::::::::::::::::::::::::::::::::::::::::
 
 ## Managing your environment
 
@@ -219,7 +240,7 @@ It installs into our specified personal library, and didn't ask for a mirror!
 ## Startup and shutdown code
 
 The functions `.First` and `.Last` can be defined in the `.Rprofile` file to run any code before starting and after ending an R session respectively.
-Define these functions so that R will print `### Hello <user> ###` at the beginning of an R session and `### Goodby <user> ###` at the end (where `<user>` is your username).
+Define these functions so that R will print `### Hello <user> ###` at the beginning of an R session and `### Goodbye <user> ###` at the end (where `<user>` is your username).
 
 Restart your R session to test your solution.
 
@@ -278,8 +299,6 @@ At any time, you can navigate to your project directory in the RStudio file brow
 Now that we have this set up, we could create a local `.Rprofile` or `.Renviron` file just for this project.
 
 If you share your project, you can share any of these files as well (including your `.Rproj`) so others can use it too!
-For this reason, it's generally good practice for any file names you use to be relative to your project directory.
-This way, it doesn't matter what anyone else's setup is like outside of the working directory, it's just the inner workings that matter.
 
 :::::::::::::::::::::::::::::::: challenge
 
@@ -332,3 +351,54 @@ Again though, the better way is to use a package manager like `renv` and share t
 :::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::
+
+
+## Best practices for a portable project (and when and how to break the rules)
+
+It is very likely that you are not the only person working with your code:
+there are other people in your lab or outside that you should be ready to share your analyses with.
+There are a few ways to setup your R project to make things less painful to share.
+
+And even if you're not collaborating, you're still sharing with future you!
+Staying organized will help you return to an old project and get up and running faster.
+
+Tips: 
+
+- Don't leave `install.packages` commands in your scripts.
+Run them from the R console, and document what you need so that others can install them themselves later.
+Or better yet, get [a package isolation solution](https://rstudio.github.io/renv/articles/renv.html) to do it for you, as discussed above.
+- Organize the files in your project into separate folders. A [commonly used setup](https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf) is something like
+    - `data/` for raw data that you shouldn't ever change
+    - `results/` for generated files and output (e.g., you should be able to delete this folder and exactly regenerate it from your code.)
+    - `src/` for your code, like `.R` files
+    - `bin/` for any other programs you need to run your analyses
+    - `doc/` for text documents associated with your project
+- Use relative paths inside your project.
+Instead of using `C:\Users\me\Documents\lab_files\research\experiment1.csv`, put `experiment1.csv` into the `data/` directory in your project folder and only reference it as `data/experiment1.csv`.
+- Reuse your code.
+If you need to run the same analysis on two different inputs, don't copy your script and find-and-replace `data/experiment1.csv` with `data/experiment2.csv`.
+Instead, structure your script as a function that takes a filename as input.
+Then write a script that sources the script your function is in and calls that function with two different filenames.
+- Separate the steps in your analyses into separate scripts (which ideally wrap the step into a function).
+You can chain all of your scripts together in one `run_all.R` script that sets up your input files and runs each step on those inputs in order.
+
+All of this being said, rules of thumb can always be broken, but you should have a really good reason to do so.
+Oftentimes, using a supercomputer can be that reason.
+
+For example, you may be using the HPCC to analyze some very large files that wouldn't be easy to share in a `data/` directory under your project.
+Maybe these live in your group's research space on the HPCC so you don't have to copy them around.
+In this case, it might make sense to use an absolute path to this file in your R scripts, e.g., `/mnt/research/my_lab/big_experiment/experiment1.csv`.
+
+If you do decide to do this however, make sure you only do it one time (e.g., set this path to a variable one time and use that variable everywhere), and document where you do it!
+This will make it easy to change if you do ever need to share or move your project or data.
+
+
+
+::::::::::::::::::::::::::::::::::::: keypoints 
+
+- The `.libPaths()` function shows you where R looks for and installs packages
+- Set the `R_LIBS_USER` environment variable in the `.Renviron` file to change where R looks for and installs libraries
+- Add functions and set options in the `.Rprofile` file to customize your R session
+- Start R from your project directory and use relative paths
+
+::::::::::::::::::::::::::::::::::::::::::::::::
