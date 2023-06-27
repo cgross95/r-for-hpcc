@@ -21,7 +21,7 @@ keywords: 'r, hpcc, parallel, cluster, icer'
 
 # Life cycle stage of the lesson
 # possible values: pre-alpha, alpha, beta, stable
-life_cycle: 'pre-alpha'
+life_cycle: 'stable'
 
 # License of the lesson materials (recommended CC-BY 4.0)
 license: 'CC-BY 4.0'
@@ -58,21 +58,21 @@ contact: 'grosscra@msu.edu'
 # - another-learner.md
 
 # Order of episodes in your lesson
-episodes: 
+episodes:
 - rstudio-ondemand.Rmd
 - managing-r-env-packages.Rmd
-- r-command-line.Rmd
 - parallelizing-r-code.Rmd
+- r-command-line.Rmd
 - r-slurm-jobs.Rmd
 
 # Information for Learners
-learners: 
+learners:
 
 # Information for Instructors
-instructors: 
+instructors:
 
 # Learner Profiles
-profiles: 
+profiles:
 
 # Customisation ---------------------------------------------
 #

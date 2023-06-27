@@ -151,13 +151,13 @@ We changed our code to get ready for parallelization, but we didn't say *how* we
 
 Well, actually, we did.
 The `plan(sequential)` line tells `future` that we want to run each loop iteration sequentially, i.e., the same exact way the original for loop works!
-We just added some extra overhead of using the extra packages.
+We just added some extra overhead of having the `future` package manage it for us.
 
 ### The multisession backend
 
 To parallelize things, we change the plan.
 There are a few options, but we'll start with the `multisession` plan.
-Change the `plan(sequential)` to `plan(multisession)` and run again:
+Change `plan(sequential)` to `plan(multisession)` and run again:
 
 ```output
    user  system elapsed 
@@ -197,10 +197,10 @@ It's even faster! With five workers, each worker has exactly two iterations to w
 
 ### The multicore backend
 
-In addition to a `multisession` plan, we can also utilize all of our cores with the `multicore` plan.
+In addition to a `multisession` plan, we can use the `multicore` plan to utilize all of our cores.
 Instead of starting multiple R sessions, `future` forks the main process into as many processes as specified workers.
 This generally has less overhead, and one major advantage is that all of the workers share the memory of the original process.
-In the `multisession` plan, each worker copied the bit of `x` it had to work on into new memory which can really add up for large inputs.
+In the `multisession` plan, each worker copied the part of `x` it had to work on into new memory which can really add up for large inputs.
 However, in the `multicore` case, since the memory is shared, it is not writable.
 
 Unfortunately, the `multicore` plan is less stable in GUI environments like RStudio.
@@ -208,7 +208,11 @@ Thus, it can only be used in scripts [running from the command line](r-command-l
 
 ## Writing code that runs on multiple nodes
 
-## The cluster backend
+Now that we know how to make the most of the cores we reserved, how can we scale up further?
+One of the major benefits of the HPCC is the fact that there are plenty of different nodes for you to run your code on!
+With just a few changes to the `future` setup, we can transition from a "multicore" to "multinode" setup.
+
+### The cluster backend
 
 To use the `cluster` backend, you need a list of nodes you can access through SSH.
 Usually, you would submit a SLURM job requesting multiple nodes and use these, but we will save that for [a future section](r-slurm-jobs.Rmd).
@@ -249,14 +253,136 @@ setwd('/mnt/ufs18/home-237/k0068027/r_workshop')   user  system elapsed
 
 The output is a little wonky because it runs the `rscript_startup` command, but we were still able to save some time!
 
-## The batchtools.slurm backend
+### The batchtools_slurm backend
+
+As we saw, using `cluster` plan can be tricky to get right.
+A much easier way to advantage of multiple nodes is to use the `batchtools.slurm` backed.
+This allows us to submit SLURM jobs for each iteration of our for loop.
+The HPCC scheduler will then control where and when these jobs run, rather than you needing to provide that information ahead of time.
+
+The simplest way to do this, is to load the `future.batchtools` package and replace the `plan` section with the `batchtools_slurm` plan:
+
+``` r
+library(foreach)
+library(doFuture)
+library(future.batchtools)
+plan(batchtools_slurm)
+```
+
+Running the code gives us
+
+``` output
+   user  system elapsed 
+  6.916   2.083  39.614
+```
+
+So we experience a much longer wait...
+But this make sense!
+We just sent off ten SLURM jobs to sit in the HPCC queue, get started, do a tiny computation, shut down, and send back the result.
+
+This is definitely *not* the kind of setting where we should use the `batchtools_slurm` backend, but imagine if the inside of the for loop was extremely resource intensive.
+In this case, it might make sense to send each iteration off into its own job with its own reserved resources.
+
+Speaking of which, what resources did we ask for in each of these submitted jobs?
+We never specified anything.
+The `future.batchtools` package comes with a set of default templates.
+Here's the `slurm.tmpl` file in the `library/future.batchtools/templates` directory under our project directory:
+
+``` bash
+#!/bin/bash
+######################################################################
+# A batchtools launch script template for Slurm
+#
+# Author: Henrik Bengtsson 
+######################################################################
+
+#SBATCH --job-name=<%= job.name %>
+#SBATCH --output=<%= log.file %>
+#SBATCH --nodes=1
+#SBATCH --time=00:05:00
+
+## Resources needed:
+<% if (length(resources) > 0) {
+  opts <- unlist(resources, use.names = TRUE)
+  opts <- sprintf("--%s=%s", names(opts), opts)
+  opts <- paste(opts, collapse = " ") %>
+#SBATCH <%= opts %>
+<% } %>
+
+## Launch R and evaluated the batchtools R job
+Rscript -e 'batchtools::doJobCollection("<%= uri %>")'
+```
+
+Now, there are some parts that don't look like like a normal SLURM script, but we see that each SLURM job automatically requests one node and five minutes.
+The remaining resources are set to the default values (usually 1 CPU and 750MB of memory).
+
+What if you want to change these values?
+The strange lines in the template SLURM script allow us to pass in extra resources in the plan line.
+For example, if you need each loop iteration to 1GB of memory and 10 minutes of runtime, we can replace the `batchtools_slurm` line with
+
+``` r
+plan(batchtools_slurm, resources = list(mem = "1GB",
+                                        time="00:10:00"))
+```
+
+The `resources` argument is a list where each entry's name is the SLURM constraint and the value is a string with the desired value.
+See the [list of job specifications in the ICER documentation](https://docs.icer.msu.edu/List_of_Job_Specifications/) for more details.
+
+Unfortunately, this method of specifying resources is not very flexible.
+In particular, the resource names have to satisfy R's variable naming rules, which means that specifying `cpus-per-task` is impossible because of the dashes.
+
+Alternatively, it is better to create your own template script that will be used to submit your jobs.
+If you save a template like the one above to your working directory as `batchtools.slurm.tmpl`, it will be used instead.
+For more information, see the [`future.batchtools` documentation](https://future.batchtools.futureverse.org/).
+
+## Other ways to use the `future` backends
+
+We decided to setup our parallelization in a for loop using the `foreach` package.
+But there are a few other ways to do this as well.
+Most fit the paradigm of defining a function to "map" over the elements in an array. 
+
+One common example is using the `lapply` function in base R.
+We could rewrite our example above using `lapply` (without any parallelization) like this:
+
+``` r
+slow_sqrt <- function(x) {
+  Sys.sleep(0.5)
+  sqrt(x)
+}
+
+x <- 1:10
+z <- lapply(x, slow_sqrt)  # apply slow_sqrt to each element of x
+
+```
+
+To parallelize, we can use the `future.apply` package, replace `lapply` with `future_lapply`, and setup the backend exactly the same way:
+
+``` r
+
+library(future.apply)  # loads future for you
+plan(multisession, workers = 5)
+
+slow_sqrt <- function(x) {
+  Sys.sleep(0.5)
+  sqrt(x)
+}
+
+x <- 1:10
+z <- future_lapply(x, slow_sqrt)
+
+```
+
+The "[Futureverse](https://www.futureverse.org/)" (i.e., the list of packages related to `future`) also includes `furrr`, a `future`-ized version of the Tidyverse package `purrr`.
+Additionally, the `doFuture` package contains adapters to parallelize `plyr` and `BiocParallel` mapping functions.
+
+The upshot is that if you have code that's setup (or can be setup) in the style of mapping a function over arrays, you can parallelize it by employing an adapter to the `future` backend.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Setup code you want to parallelize as "mapping" a function over an array
+- Setup a `future` backend to distribute each of these function applications over cores, nodes, or both
+- Use the `batchtools_slurm` backend to have `future` submit SLURM jobs for you
+- Use a `future` adapter to link your code to the backend
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
