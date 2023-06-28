@@ -72,6 +72,9 @@ cd ~/r_workshop
 
 # Run the script
 Rscript src/test_sqrt.R
+
+# Bonus: write information about our job in the output file
+scontrol show job $SLURM_JOB_ID
 ```
 
 A template like this will work for you 90% of the time, where all you need to do is set your resources correctly, load the right version of R, set the directory you want to work in, and choose your script.
@@ -95,11 +98,40 @@ squeue --me
 After the script has run, we can see its output in a file with a name like `slurm-<jobid>.out` in the current working directory.
 
 ``` bash
-cat slurm-TBD.out
+cat slurm-17815750.out
 ```
 
 ``` output
-TBD
+   user  system elapsed 
+  0.027   0.010   5.042 
+JobId=17815750 JobName=single_core.sh
+   UserId=grosscra(919141) GroupId=helpdesk(2103) MCS_label=N/A
+   Priority=57661 Nice=0 Account=general QOS=grosscra
+   JobState=RUNNING Reason=None Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:13 TimeLimit=00:05:00 TimeMin=N/A
+   SubmitTime=2023-06-28T18:18:09 EligibleTime=2023-06-28T18:18:09
+   AccrueTime=2023-06-28T18:18:09
+   StartTime=2023-06-28T18:19:42 EndTime=2023-06-28T18:24:42 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2023-06-28T18:19:42 Scheduler=Backfill
+   Partition=general-long-bigmem AllocNode:Sid=dev-amd20:13341
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=vim-001
+   BatchHost=vim-001
+   NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=1,mem=500M,node=1,billing=76
+   AllocTRES=cpu=1,mem=500M,node=1,billing=76
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryCPU=500M MinTmpDiskNode=0
+   Features=[intel14|intel16|intel18|(amr|acm)|nvf|nal|nif] DelayBoot=00:00:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/mnt/ufs18/home-045/grosscra/r_workshop/slurm/single_core.sh
+   WorkDir=/mnt/ufs18/home-045/grosscra/r_workshop
+   Comment=stdout=/mnt/ufs18/home-045/grosscra/r_workshop/slurm-17815750.out 
+   StdErr=/mnt/ufs18/home-045/grosscra/r_workshop/slurm-17815750.out
+   StdIn=/dev/null
+   StdOut=/mnt/ufs18/home-045/grosscra/r_workshop/slurm-17815750.out
+   Power=
 ```
 
 Congratulations!
@@ -110,12 +142,12 @@ We've just completed the workflow for submitting any job on the HPCC.
 ## Submitting a multicore job
 
 Copy your submission script to `slurm/multi_core.sh`.
-Adjust it to request five cores and change it so that you run `test_sqrt_parallel.R` with a `multicore` backend for `future` with five workers.
+Adjust it to request five cores and change it so that you run a copy of `src/test_sqrt_multisession.R` with a `multicore` backend for `future` with five workers.
 Submit the job and compare the time it took to run with the single core job.
 
 ::::::::::::::::::::::::: solution
 
-`multi_core.sh`:
+`slurm/multi_core.sh`:
 
 ``` bash
 #!/bin/bash
@@ -133,10 +165,13 @@ module load GCC/10.2.0 OpenMPI/4.0.5 R/4.0.3
 cd ~/r_workshop
 
 # Run the script
-Rscript src/test_sqrt_parallel.R
+Rscript src/test_sqrt_multicore.R
+
+# Bonus: write information about our job in the output file
+scontrol show job $SLURM_JOB_ID
 ```
 
-`test_sqrt_parallel.R`:
+`src/test_sqrt_multicore.R`:
 
 ``` r
 library(foreach)
@@ -163,7 +198,7 @@ Leaving the output in the directory we run the script in will get messy.
 For the steps below, you will need the [list of SLURM job specifications](https://docs.icer.msu.edu/List_of_Job_Specifications/).
 
 1. Create the directory `results` in your project directory.
-2. For the previous job script, change the name for the job allocation to `multi_core-<jobid>` where `<jobid>` is the number that SLURM assigns your job.
+2. For the previous job script, change the name for the job allocation to `multicore-<jobid>` where `<jobid>` is the number that SLURM assigns your job.
 3. Change it so the output and error files are stored in your project directory under `results/<jobname>.out` and `results/<jobname>.err` where `<jobname>` is the name you set in the previous step.
 
 *Hint*: you can reference the job ID in `#SBATCH` lines with `%j` and the job name with `%x`.
@@ -179,7 +214,7 @@ For the steps below, you will need the [list of SLURM job specifications](https:
 #SBATCH --cpus-per-task=5  # Use 5 cores
 #SBATCH --mem-per-cpu=500MB  # Use 500MB of memory per core requested
 #SBATCH --nodes=1  # Use 1 node
-#SBATCH --job-name=multi_core-%j
+#SBATCH --job-name=multicore-%j
 #SBATCH --output=~/r_workshop/results/%x.out
 #SBATCH --error=~/r_workshop/results/%x.err
 
@@ -191,7 +226,7 @@ module load GCC/10.2.0 OpenMPI/4.0.5 R/4.0.3
 cd ~/r_workshop
 
 # Run the script
-Rscript src/test_sqrt_parallel.R
+Rscript src/test_sqrt_multicore.R
 ```
 
 ::::::::::::::::::::::::::::::::::
@@ -211,7 +246,6 @@ Luckily `future` has SLURM in mind and can query the nodes available in your SLU
 It automatically uses these as the `workers` when specifying the plan, so you can leave that argument out, specifying your plan like
 
 ``` r
-hostnames <- c("dev-amd20", "dev-intel18")
 wd <- getwd()
 setwd_cmd <- cat("setwd('", wd, "')", sep = "")
 plan(cluster,
@@ -247,6 +281,9 @@ cd ~/r_workshop
 
 # Run the script
 srun --cpus-per-task=$SLURM_CPUS_PER_TASK Rscript src/some_MPI_script.R
+
+# Bonus: write information about our job in the output file
+scontrol show job $SLURM_JOB_ID
 ```
 
 Notice that we added an `#SBATCH` line for `tasks` and used the `$SLURM_CPUS_PER_TASK` variable to set the option for `srun`.
