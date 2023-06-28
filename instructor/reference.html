@@ -229,7 +229,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Reference</h1>
-        <p> Last updated on 2023-05-02 | 
+        <p> Last updated on 2023-06-28 | 
         
         <a href="https://github.com/cgross95/r-for-hpcc/edit/main/learners/reference.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -244,12 +244,94 @@
         
 <section id="glossary"><h2 class="section-heading">Glossary<a class="anchor" aria-label="anchor" href="#glossary"></a>
 </h2>
-<hr class="half-width"><p>This is a placeholder file. Please add content here.</p>
-<!-- 
+<hr class="half-width"><dl><dt>adapter (<code>future</code>)</dt>
+<dd>
+The way that your code calls <code>future</code> to run in parallel,
+usually by a small change like using <code>future_lapply</code> instead
+of <code>lapply</code>
+</dd>
+<dt>backend (<code>future</code>)</dt>
+<dd>
+The way that <code>future</code> parallelizes your code, e.g., through
+multiple R sessions or submitting SLURM jobs
+</dd>
+<dt>core or CPU</dt>
+<dd>
+The part of a computer that actually does the computing, often multiple
+on one computer can work simultaneously
+</dd>
+<dt>HPCC</dt>
+<dd>
+High performance computing cluster
+</dd>
+<dt><code>.libPaths()</code></dt>
+<dd>
+The <code>R</code> command that shows you where your packages are
+installed and loaded from
+</dd>
+<dt>library</dt>
+<dd>
+A directory where R packages are stored
+</dd>
+<dt>module</dt>
+<dd>
+The way that software is stored and loaded on the HPCC
+</dd>
+<dt>node</dt>
+<dd>
+An entire computer, many of which are connected together to create the
+HPCC
+</dd>
+<dt><a href="https://ondemand.hpcc.msu.edu" class="external-link">OnDemand</a></dt>
+<dd>
+The website to access graphical HPCC programs like RStudio through your
+browser
+</dd>
+<dt>package</dt>
+<dd>
+A collection of R code that you can load and use in your code
+</dd>
+<dt>parallelization</dt>
+<dd>
+Running different parts of a program at the same time, the main way to
+speed up code through the HPCC
+</dd>
+<dt>R</dt>
+<dd>
+A programming language, and a command to start an R interpreter on the
+command line
+</dd>
+<dt><code>.Renviron</code></dt>
+<dd>
+The file that contains environment variables set when R starts
+</dd>
+<dt><code>.Rprofile</code></dt>
+<dd>
+The file that contains R commands that run when R starts
+</dd>
+<dt><code>RScript</code></dt>
+<dd>
+The command to run a list of R commands in a file (usually ending with
+<code>.R</code>) on the command line
+</dd>
+<dt>RStudio</dt>
+<dd>
+An Integrated Development Environment (IDE) where you can write and run
+R code
+</dd>
+<dt>RStudio Project</dt>
+<dd>
+A way to organize your R code in RStudio, facilitated through an
+<code>.RProj</code> file in a directory
+</dd>
+<dt>SLURM</dt>
+<dd>
+The HPCC’s batch manager
+</dd>
+</dl><!-- 
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use. 
- -->
-</section></div> <!-- / div.lesson-content -->
+ --></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/index.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="../instructor/index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
@@ -302,8 +384,8 @@ any links that you are not going to use.
   "url": "https://cgross95.github.io/r-for-hpcc/instructor/reference.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/instructor/reference.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-05-02",
-  "datePublished": "2023-06-27"
+  "dateModified": "2023-06-28",
+  "datePublished": "2023-06-28"
 }
 
   </script><script>

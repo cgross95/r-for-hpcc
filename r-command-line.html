@@ -244,7 +244,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Using R on the command line</h1>
-        <p> Last updated on 2023-06-16 | 
+        <p> Last updated on 2023-06-28 | 
         
         <a href="https://github.com/cgross95/r-for-hpcc/edit/main/episodes/r-command-line.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -352,7 +352,7 @@ the modules for the ones we want:</p>
       $ module -r spider '.*R.*'</code></pre>
 </div>
 <p>We’ve abbreviated the output, but we can see that there are lots of
-different versions of R available! We’ll try loading 4.0.2 since that
+different versions of R available! We’ll try loading 4.0.3 since that
 version on the HPCC has a large number of packages pre-installed.</p>
 <p>If you’re familiar with the module system, you might try to load the
 module right away with <code>module load</code>:</p>
@@ -493,18 +493,19 @@ specify the entire path name.</p>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/r_workshop</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> test_serial.R</span></code></pre>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> src/test_sqrt_multisession.R</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code><span><span class="va">TBD</span></span></code></pre>
+<pre class="output" tabindex="0"><code>   user  system elapsed 
+  0.238   0.003   1.698</code></pre>
 </div>
 <p>This is the equivalent of clicking the Source button while we have a
 R script open in RStudio, or running
-<code>source('~/r_workshop/test_serial.R')</code> from an R console.
-Notice that we didn’t use the <code>--vanilla</code> option here. This
-ensures that we use the local library setup in the project
+<code>source('~/r_workshop/src/test_sqrt_multisession.R')</code> from an
+R console. Notice that we didn’t use the <code>--vanilla</code> option
+here. This ensures that we use the local library setup in the project
 directory.</p>
 </section><section id="writing-scripts-that-take-command-line-arguments"><h2 class="section-heading">Writing scripts that take command line arguments<a class="anchor" aria-label="anchor" href="#writing-scripts-that-take-command-line-arguments"></a>
 </h2>
@@ -513,12 +514,12 @@ scripts when you run them from the command line. The simplest way is to
 use the <code>commandArgs</code> function in R which lets us access all
 of the command line arguments as a character vector.</p>
 <p>From the command line, open a new R script called
-<code>command_args.R</code> in a text editor of your choice. If you
+<code>src/command_args.R</code> in a text editor of your choice. If you
 aren’t familiar with any, a good option is <code>nano</code>.</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> command_args.R</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> src/command_args.R</span></code></pre>
 </div>
 <p>Our script will print out all of our command line arguments:</p>
 <div class="codewrapper sourceCode" id="cb20">
@@ -528,7 +529,7 @@ aren’t familiar with any, a good option is <code>nano</code>.</p>
 <code class="sourceCode R"><span><span class="va">args</span> <span class="op">&lt;-</span> <span class="fu">commandArgs</span><span class="op">(</span>trailingOnly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">nargs</span> <span class="op">&lt;-</span> <span class="fu">length</span><span class="op">(</span><span class="va">args</span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nargs</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">nargs</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">cat</span><span class="op">(</span><span class="st">"Argument"</span>, <span class="va">i</span>, <span class="st">":"</span>, <span class="va">args</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre>
 </div>
@@ -543,7 +544,7 @@ arguments:</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> command_args.R a b c</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> src/command_args.R a b c</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -574,7 +575,7 @@ check out <a href="https://cran.r-project.org/web/packages/optparse/" class="ext
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -593,8 +594,8 @@ check out <a href="https://cran.r-project.org/web/packages/optparse/" class="ext
 <h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge2"></a>
 </h3>
 <div class="callout-content">
-<p>Write an Rscript one-liner to print the <code>help</code> for the
-function <code>strtoi</code>.</p>
+<p>Write an Rscript one-liner to display the <code>help</code> for the
+function <code>strtoi</code> (press “q” to exit).</p>
 </div>
 </div>
 </div>
@@ -605,7 +606,7 @@ function <code>strtoi</code>.</p>
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -636,7 +637,7 @@ prints the numbers from 1 to that integer.</p>
   Show me the solution
   </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -646,7 +647,7 @@ prints the numbers from 1 to that integer.</p>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu">strtoi</span><span class="op">(</span><span class="va">args</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
-<span><span class="fu">print</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
+<span>  <span class="fu">print</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre>
 </div>
 </div>
@@ -730,8 +731,8 @@ any links that you are not going to use.
   "url": "https://cgross95.github.io/r-for-hpcc/r-command-line.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/r-command-line.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-06-16",
-  "datePublished": "2023-06-27"
+  "dateModified": "2023-06-28",
+  "datePublished": "2023-06-28"
 }
 
   </script><script>

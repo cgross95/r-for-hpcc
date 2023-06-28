@@ -244,7 +244,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Parallelizing your R code with <code>future</code></h1>
-        <p> Last updated on 2023-06-27 | 
+        <p> Last updated on 2023-06-28 | 
         
         <a href="https://github.com/cgross95/r-for-hpcc/edit/main/episodes/parallelizing-r-code.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -289,7 +289,7 @@ lots of cores. Your laptop probably has a processor with 4-8 cores while
 the largest nodes on the HPCC have 128 cores.</p>
 <p>All this said though, HPCC nodes are <em>not</em> inherently faster
 than standard computers. In fact, having many cores in a processor
-usually come at the cost of slightly slower processing speeds. One of
+usually comes at the cost of slightly slower processing speeds. One of
 the primary benefits of running on the HPCC is that that you can speed
 up your throughput by doing many tasks at the same time on multiple
 processors, nodes, or both. This is called running your code in
@@ -312,6 +312,7 @@ following code:</p>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
 <span><span class="va">z</span> <span class="op">&lt;-</span> <span class="fu">rep</span><span class="op">(</span><span class="cn">NA</span>, <span class="fu">length</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Preallocate the result vector</span></span>
+<span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu">seq_along</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">Sys.sleep</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span>  <span class="va">z</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">sqrt</span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
@@ -392,8 +393,8 @@ too!</p>
 </div>
 </div>
 <p>Let’s parallelize this with a combination of the <code>foreach</code>
-and the <code>doFuture</code> packages. Add the following lines to the
-end of your <code>test_sqrt.R</code> script:</p>
+and the <code>doFuture</code> packages. Start a new R script with the
+following lines</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -412,9 +413,10 @@ end of your <code>test_sqrt.R</code> script:</p>
 <span></span>
 <span><span class="fu">print</span><span class="op">(</span><span class="fu">proc.time</span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">t</span><span class="op">)</span></span></code></pre>
 </div>
+<p>and save as <code>src/test_sqrt_multisession.R</code>.</p>
 <p>Notice that this is very close to our original code, but we made a
 few changes:</p>
-<ul><li>We changed the <code>for</code> loop with a <code>foreach</code>
+<ul><li>We changed the <code>for</code> loop into a <code>foreach</code>
 statement.
 <ul><li>The <code>xi = x</code> lets us iterate over <code>x</code> and use
 <code>xi</code> as an element rather than indexing.</li>
@@ -520,8 +522,10 @@ transition from a “multicore” to “multinode” setup.</p>
 <p>To use the <code>cluster</code> backend, you need a list of nodes you
 can access through SSH. Usually, you would submit a SLURM job requesting
 multiple nodes and use these, but we will save that for <a href="r-slurm-jobs.html">a future section</a>.</p>
-<p>For now, we’ll practice by using some development nodes. Replace the
-<code>plan</code> line with the following:</p>
+<p>For now, we’ll practice by using some development nodes.</p>
+<p>Copy <code>src/test_sqrt_multisession.R</code> to
+<code>src/test_sqrt_cluster.R</code>, and replace the <code>plan</code>
+line with the following:</p>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -529,7 +533,7 @@ multiple nodes and use these, but we will save that for <a href="r-slurm-jobs.ht
 <code class="sourceCode R"><span><span class="va">hostnames</span> <span class="op">&lt;-</span> <span class="fu">c</span><span class="op">(</span><span class="st">"dev-amd20"</span>, <span class="st">"dev-intel18"</span><span class="op">)</span></span>
 <span><span class="fu">plan</span><span class="op">(</span><span class="va">cluster</span>, workers <span class="op">=</span> <span class="va">hostnames</span><span class="op">)</span></span></code></pre>
 </div>
-<p>and run:</p>
+<p>When we run the code, we get:</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -566,12 +570,15 @@ some time!</p>
 <h3 id="the-batchtools_slurm-backend">The batchtools_slurm backend<a class="anchor" aria-label="anchor" href="#the-batchtools_slurm-backend"></a></h3>
 <p>As we saw, using <code>cluster</code> plan can be tricky to get
 right. A much easier way to advantage of multiple nodes is to use the
-<code>batchtools.slurm</code> backed. This allows us to submit SLURM
+<code>batchtools.slurm</code> backend. This allows us to submit SLURM
 jobs for each iteration of our for loop. The HPCC scheduler will then
 control where and when these jobs run, rather than you needing to
 provide that information ahead of time.</p>
-<p>The simplest way to do this, is to load the
-<code>future.batchtools</code> package and replace the <code>plan</code>
+<p>The simplest way to do this, is to use the
+<code>future.batchtools</code> package. Copy
+<code>src/test_sqrt_multisession.R</code> to
+<code>src/test_sqrt_slurm.R</code>, load the
+<code>future.batchtool</code> package, and replace the <code>plan</code>
 section with the <code>batchtools_slurm</code> plan:</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -634,10 +641,10 @@ script, but we see that each SLURM job automatically requests one node
 and five minutes. The remaining resources are set to the default values
 (usually 1 CPU and 750MB of memory).</p>
 <p>What if you want to change these values? The strange lines in the
-template SLURM script allow us to pass in extra resources in the plan
-line. For example, if you need each loop iteration to 1GB of memory and
-10 minutes of runtime, we can replace the <code>batchtools_slurm</code>
-line with</p>
+template SLURM script allow us to pass in extra resources when we set
+the <code>plan</code>. For example, if you need each loop iteration to
+have 1GB of memory and 10 minutes of runtime, we can replace the
+<code>batchtools_slurm</code> line with</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -688,7 +695,7 @@ the backend exactly the same way:</p>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">future.apply</span><span class="op">)</span>  <span class="co"># loads future for you</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">future.apply</span><span class="op">)</span></span>
 <span><span class="fu">plan</span><span class="op">(</span><span class="va">multisession</span>, workers <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">slow_sqrt</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
@@ -784,8 +791,8 @@ any links that you are not going to use.
   "url": "https://cgross95.github.io/r-for-hpcc/parallelizing-r-code.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/parallelizing-r-code.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-06-27",
-  "datePublished": "2023-06-27"
+  "dateModified": "2023-06-28",
+  "datePublished": "2023-06-28"
 }
 
   </script><script>

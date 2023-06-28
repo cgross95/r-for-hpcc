@@ -245,7 +245,7 @@ rules)</a></li>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Managing R package installation and environment</h1>
-        <p> Last updated on 2023-06-16 | 
+        <p> Last updated on 2023-06-28 | 
         
         <a href="https://github.com/cgross95/r-for-hpcc/edit/main/episodes/managing-r-env-packages.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -305,12 +305,13 @@ console:</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[1] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"</code></pre>
+<pre class="output" tabindex="0"><code>[1] "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"</code></pre>
 </div>
 <p>Depending on whether you’ve used R before and some behind the scenes
-setup, the output may be different for you. However, this directory
-should always be one entry in your <code>.libPaths()</code>, and points
-to all of the packages that are pre-installed on the HPCC. When you use
+setup, the output may be different for you. However, this directory (or
+one like, starting with <code>/opt/software</code>) should always be one
+entry in your <code>.libPaths()</code>, and points to all of the
+packages that are pre-installed on the HPCC. When you use
 <code>install.packages()</code> in the future, by default, it will
 install to the first entry in your <code>.libPaths()</code>.</p>
 <div id="whats-the-difference-between-a-library-and-a-package" class="callout callout">
@@ -341,7 +342,7 @@ install the desired package into the first library on your
 <code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"cowsay"</span><span class="op">)</span></span></code></pre>
 </div>
 <pre><code>Warning in install.packages :
-  'lib = "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"' is not writable
+  'lib = "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"' is not writable
 Would you like to use a personal library instead? (yes/No/cancel)</code></pre>
 <p>R detects that our first available library is not writable by users
 (this is because it’s shared by everyone on the HPCC). Instead, it
@@ -364,18 +365,19 @@ to install packages into? (yes/No/cancel)</code></pre>
 <h3 class="callout-title">Do you already have a personal library?<a class="anchor" aria-label="anchor" href="#do-you-already-have-a-personal-library"></a>
 </h3>
 <div class="callout-content">
-<p>If your <code>.libPaths()</code> had a local directory before the one
-in <code>/opt/software</code>, you won’t need to follow the preceding
-steps.</p>
+<p>If your <code>.libPaths()</code> had a local directory (that is, one
+you’re allowed to write and read to) before the one in
+<code>/cvmfs</code> or <code>/opt/software</code>, you won’t need to
+follow the preceding steps.</p>
 </div>
 </div>
 </div>
-<p>You will then be asked to select a CRAN mirror. This is the location
+<p>You may then be asked to select a CRAN mirror. This is the location
 where the package is downloaded from. Usually, <code>71</code> is a good
 choice for us because it’s from the University of Michigan (closer means
 faster downloads).</p>
-<p>R will download and install the package. We can now use it like
-normal! From the R console:</p>
+<p>R will download and install the package. We can now use it like we
+normally would! From the R console:</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -509,8 +511,9 @@ with no problems.</p>
 <p>Before we do that though, let’s talk about another file that R looks
 at when it starts up: <code>.Rprofile</code>. This file contains
 commands that R will run before anything you run.</p>
-<p>Here’s an example: setting the CRAN mirror is annoying to do every
-time. We can do this before we install a package with the R command</p>
+<p>Here’s an example: we can set the CRAN mirror (the location we
+download packages from) to be one hosted by the University of Michigan
+with the R command</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -554,12 +557,12 @@ mirror!</p>
 <h3 class="callout-title">Startup and shutdown code<a class="anchor" aria-label="anchor" href="#startup-and-shutdown-code"></a>
 </h3>
 <div class="callout-content">
-<p>The functions <code>.First</code> and <code>.Last</code> can be
-defined in the <code>.Rprofile</code> file to run any code before
-starting and after ending an R session respectively. Define these
-functions so that R will print <code>### Hello &lt;user&gt; ###</code>
-at the beginning of an R session and
-<code>### Goodbye &lt;user&gt; ###</code> at the end (where
+<p>The functions <code>.First</code> and <code>.Last</code> (that don’t
+take any arguments) can be defined in the <code>.Rprofile</code> file to
+run any code before starting and after ending an R session respectively.
+Define these functions so that R will print
+<code>### Hello &lt;user&gt; ###</code> at the beginning of an R session
+and <code>### Goodbye &lt;user&gt; ###</code> at the end (where
 <code>&lt;user&gt;</code> is your username).</p>
 <p>Restart your R session to test your solution.</p>
 <p>As a bonus, use <code>Sys.getenv</code> and the <code>USER</code>
@@ -614,8 +617,9 @@ order:</p>
 <ol style="list-style-type: decimal"><li>In the directory where R is started.</li>
 <li>In your home directory.</li>
 <li>In a global directory where R is installed. On the HPCC, for version
-4.0.3, this is the file
-<code>/opt/software/R/4.0.3-foss-2020a/lib64/R/etc/Renviron</code>.</li>
+4.0.3, this is the file <code>$R_HOME/etc/Renviron</code> (you can check
+where <code>$R_HOME</code> is with
+<code>Sys.getenv("$R_HOME")</code>).</li>
 </ol><p>This means that you can setup per project profile and environment
 files, and use them by starting R in those directories. However, RStudio
 usually starts R in your home directory. Instead, the most effective way
@@ -661,8 +665,13 @@ directory called <code>library</code> in your <code>r_workshop</code>
 directory. Make sure that this <strong>only</strong> happens when you
 start R in your <code>r_workshop</code> directory, and not always!</p>
 <p>Restart R, check your work with the <code>.libPaths()</code>, and
-install the package <code>future</code>. This package won’t be available
-anywhere outside of this project.</p>
+install the following packages:</p>
+<ul><li><code>future</code></li>
+<li><code>doFuture</code></li>
+<li><code>foreach</code></li>
+<li><code>future.batchtools</code></li>
+</ul><p>These packages won’t be available anywhere outside of this
+project.</p>
 </div>
 </div>
 </div>
@@ -689,7 +698,7 @@ following line</p>
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>[1] "/mnt/ufs18/home-237/k0068027/r_workshop/library" 
-[2] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"</code></pre>
+[2] "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"</code></pre>
 </div>
 <p>and see that our <code>library</code> directory is first.</p>
 <p>If we install <code>future</code>, it goes into this directory:</p>
@@ -854,8 +863,8 @@ any links that you are not going to use.
   "url": "https://cgross95.github.io/r-for-hpcc/instructor/managing-r-env-packages.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/instructor/managing-r-env-packages.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-06-16",
-  "datePublished": "2023-06-27"
+  "dateModified": "2023-06-28",
+  "datePublished": "2023-06-28"
 }
 
   </script><script>
