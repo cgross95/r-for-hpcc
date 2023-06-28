@@ -31,11 +31,11 @@ We can do this by typing `.libPaths()` into the R console:
 .libPaths()
 ```
 ```output
-[1] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"
+[1] "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"
 ```
 
 Depending on whether you've used R before and some behind the scenes setup, the output may be different for you.
-However, this directory should always be one entry in your `.libPaths()`, and points to all of the packages that are pre-installed on the HPCC.
+However, this directory (or one like, starting with `/opt/software`) should always be one entry in your `.libPaths()`, and points to all of the packages that are pre-installed on the HPCC.
 When you use `install.packages()` in the future, by default, it will install to the first entry in your `.libPaths()`.
 
 :::::::::::::::::::::::::::::::::: callout
@@ -57,7 +57,7 @@ install.packages("cowsay")
 ```
 ```
 Warning in install.packages :
-  'lib = "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"' is not writable
+  'lib = "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"' is not writable
 Would you like to use a personal library instead? (yes/No/cancel)
 ```
 
@@ -77,16 +77,16 @@ Type yes again, and this will become your new personal library.
 
 ## Do you already have a personal library?
 
-If your `.libPaths()` had a local directory before the one in `/opt/software`, you won't need to follow the preceding steps.
+If your `.libPaths()` had a local directory (that is, one you're allowed to write and read to) before the one in `/cvmfs` or `/opt/software`, you won't need to follow the preceding steps.
 
 ::::::::::::::::::::::::::::::::::::
 
 
-You will then be asked to select a CRAN mirror.
+You may then be asked to select a CRAN mirror.
 This is the location where the package is downloaded from.
 Usually, `71` is a good choice for us because it's from the University of Michigan (closer means faster downloads).
 
-R will download and install the package. We can now use it like normal! From the R console:
+R will download and install the package. We can now use it like we normally would! From the R console:
 
 ```r
 library(cowsay)
@@ -201,8 +201,7 @@ However, we can install it into our new library with no problems.
 Before we do that though, let's talk about another file that R looks at when it starts up: `.Rprofile`.
 This file contains commands that R will run before anything you run.
 
-Here's an example: setting the CRAN mirror is annoying to do every time.
-We can do this before we install a package with the R command
+Here's an example: we can set the CRAN mirror (the location we download packages from) to be one hosted by the University of Michigan with the R command
 
 ```r
 options(repos = "https://repo.miserver.it.umich.edu/cran/")
@@ -239,7 +238,7 @@ It installs into our specified personal library, and didn't ask for a mirror!
 
 ## Startup and shutdown code
 
-The functions `.First` and `.Last` can be defined in the `.Rprofile` file to run any code before starting and after ending an R session respectively.
+The functions `.First` and `.Last` (that don't take any arguments) can be defined in the `.Rprofile` file to run any code before starting and after ending an R session respectively.
 Define these functions so that R will print `### Hello <user> ###` at the beginning of an R session and `### Goodbye <user> ###` at the end (where `<user>` is your username).
 
 Restart your R session to test your solution.
@@ -275,7 +274,7 @@ In fact, R checks for them in a set order:
 
 1. In the directory where R is started.
 2. In your home directory.
-3. In a global directory where R is installed. On the HPCC, for version 4.0.3, this is the file `/opt/software/R/4.0.3-foss-2020a/lib64/R/etc/Renviron`.
+3. In a global directory where R is installed. On the HPCC, for version 4.0.3, this is the file `$R_HOME/etc/Renviron` (you can check where `$R_HOME` is with `Sys.getenv("$R_HOME")`).
 
 This means that you can setup per project profile and environment files, and use them by starting R in those directories. However, RStudio usually starts R in your home directory. Instead, the most effective way to achieve this is through RStudio Projects.
 
@@ -311,8 +310,14 @@ But we'll create a quick approximation.
 Set your `R_LIBS_USER` environment variable to point to a directory called `library` in your `r_workshop` directory.
 Make sure that this **only** happens when you start R in your `r_workshop` directory, and not always!
 
-Restart R, check your work with the `.libPaths()`, and install the package `future`.
-This package won't be available anywhere outside of this project.
+Restart R, check your work with the `.libPaths()`, and install the following packages:
+
+  - `future`
+  - `doFuture`
+  - `foreach`
+- `future.batchtools`
+
+These packages won't be available anywhere outside of this project.
 
 :::::::::::::::::: solution
 
@@ -329,7 +334,7 @@ Restarting R we check our library paths
 ```
 ```output
 [1] "/mnt/ufs18/home-237/k0068027/r_workshop/library" 
-[2] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"
+[2] "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"
 ```
 
 and see that our `library` directory is first.

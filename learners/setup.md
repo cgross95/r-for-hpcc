@@ -2,53 +2,17 @@
 title: Setup
 ---
 
-FIXME: Setup instructions live in this document. Please specify the tools and
-the data sets the Learner needs to have installed.
+## Prerequisites
 
-## Data Sets
+To participate in this workshop, we assume:
 
-<!--
-FIXME: place any data you want learners to use in `episodes/data` and then use
-       a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
-       link to it, replacing the example.com link.
--->
-Download the [data zip file](https://example.com/FIXME) and unzip it to your Desktop
+  - You have an account through ICER to access the HPCC.
+  - You have some experience using R.
+  - You have some experience using the Linux, the HPCC, and SLURM (e.g., you have taken ICER's Introduction to the HPCC workshop)
 
 ## Software Setup
 
-::::::::::::::::::::::::::::::::::::::: discussion
+This workshop requires no software, only the use of ICER's [OnDemand service](https://ondemand.hpcc.msu.edu).
 
-### Details
-
-Setup for different systems can be presented in dropdown menus via a `solution`
-tag. They will join to this discussion block, so you can give a general overview
-of the software used in this lesson here and fill out the individual operating
-systems (and potentially add more, e.g. online setup) in the solutions blocks.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::: solution
-
-### Windows
-
-Use PuTTY
-
-:::::::::::::::::::::::::
-
-:::::::::::::::: solution
-
-### MacOS
-
-Use Terminal.app
-
-:::::::::::::::::::::::::
-
-
-:::::::::::::::: solution
-
-### Linux
-
-Use Terminal
-
-:::::::::::::::::::::::::
-
+However, you may optionally like to use an SSH client on your computer to access the HPCC through the command line.
+For instructions on installing an SSH client on Windows, Mac, and Linux, please see [ICER's documentation](https://docs.icer.msu.edu/install_ssh_client/).

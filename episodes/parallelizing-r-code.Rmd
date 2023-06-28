@@ -24,7 +24,7 @@ The HPCC is made up of lots of computers that have processors with lots of cores
 Your laptop probably has a processor with 4-8 cores while the largest nodes on the HPCC have 128 cores.
 
 All this said though, HPCC nodes are *not* inherently faster than standard computers.
-In fact, having many cores in a processor usually come at the cost of slightly slower processing speeds.
+In fact, having many cores in a processor usually comes at the cost of slightly slower processing speeds.
 One of the primary benefits of running on the HPCC is that that you can speed up your throughput by doing many tasks at the same time on multiple processors, nodes, or both.
 This is called running your code in *parallel*.
 
@@ -42,6 +42,7 @@ t <- proc.time()
 
 x <- 1:10
 z <- rep(NA, length(x))  # Preallocate the result vector
+
 for(i in seq_along(x)) {
   Sys.sleep(0.5)
   z[i] <- sqrt(x[i])
@@ -111,7 +112,7 @@ Not only is the vectorized code much cleaner, it's much faster too!
 ::::::::::::::::::::::::::::::::::::::::::::::
 
 Let's parallelize this with a combination of the `foreach` and the `doFuture` packages.
-Add the following lines to the end of your `test_sqrt.R` script:
+Start a new R script with the following lines
 
 ```r
 library(foreach)
@@ -129,9 +130,11 @@ z <- foreach(xi = x) %dofuture% {
 print(proc.time() - t)
 ```
 
+and save as `src/test_sqrt_multisession.R`.
+
 Notice that this is very close to our original code, but we made a few changes:
 
-- We changed the `for` loop with a `foreach` statement.
+- We changed the `for` loop into a `foreach` statement.
     - The `xi = x` lets us iterate over `x` and use `xi` as an element rather than indexing.
     - The block that happens on each "iteration" is preceded by `%dofuture%`.
     This tells `foreach` how to run each of the iterations, and in this case, uses the `future` package behind the scenes.
@@ -218,14 +221,15 @@ To use the `cluster` backend, you need a list of nodes you can access through SS
 Usually, you would submit a SLURM job requesting multiple nodes and use these, but we will save that for [a future section](r-slurm-jobs.Rmd).
 
 For now, we'll practice by using some development nodes.
-Replace the `plan` line with the following:
+
+Copy `src/test_sqrt_multisession.R` to `src/test_sqrt_cluster.R`, and replace the `plan` line with the following:
 
 ```r
 hostnames <- c("dev-amd20", "dev-intel18")
 plan(cluster, workers = hostnames)
 ```
 
-and run:
+When we run the code, we get:
 
 ```output
 Error: there is no package called 'doFuture'
@@ -256,11 +260,12 @@ The output is a little wonky because it runs the `rscript_startup` command, but 
 ### The batchtools_slurm backend
 
 As we saw, using `cluster` plan can be tricky to get right.
-A much easier way to advantage of multiple nodes is to use the `batchtools.slurm` backed.
+A much easier way to advantage of multiple nodes is to use the `batchtools.slurm` backend.
 This allows us to submit SLURM jobs for each iteration of our for loop.
 The HPCC scheduler will then control where and when these jobs run, rather than you needing to provide that information ahead of time.
 
-The simplest way to do this, is to load the `future.batchtools` package and replace the `plan` section with the `batchtools_slurm` plan:
+The simplest way to do this, is to use the `future.batchtools` package.
+Copy `src/test_sqrt_multisession.R` to `src/test_sqrt_slurm.R`, load the `future.batchtool` package, and replace the `plan` section with the `batchtools_slurm` plan:
 
 ``` r
 library(foreach)
@@ -317,8 +322,8 @@ Now, there are some parts that don't look like like a normal SLURM script, but w
 The remaining resources are set to the default values (usually 1 CPU and 750MB of memory).
 
 What if you want to change these values?
-The strange lines in the template SLURM script allow us to pass in extra resources in the plan line.
-For example, if you need each loop iteration to 1GB of memory and 10 minutes of runtime, we can replace the `batchtools_slurm` line with
+The strange lines in the template SLURM script allow us to pass in extra resources when we set the `plan`.
+For example, if you need each loop iteration to have 1GB of memory and 10 minutes of runtime, we can replace the `batchtools_slurm` line with
 
 ``` r
 plan(batchtools_slurm, resources = list(mem = "1GB",
@@ -359,7 +364,7 @@ To parallelize, we can use the `future.apply` package, replace `lapply` with `fu
 
 ``` r
 
-library(future.apply)  # loads future for you
+library(future.apply)
 plan(multisession, workers = 5)
 
 slow_sqrt <- function(x) {
@@ -385,4 +390,3 @@ The upshot is that if you have code that's setup (or can be setup) in the style 
 - Use a `future` adapter to link your code to the backend
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
-

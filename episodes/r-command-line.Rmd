@@ -76,7 +76,7 @@ module spider R
       $ module -r spider '.*R.*'
 ```
 
-We've abbreviated the output, but we can see that there are lots of different versions of R available! We'll try loading 4.0.2 since that version on the HPCC has a large number of packages pre-installed.
+We've abbreviated the output, but we can see that there are lots of different versions of R available! We'll try loading 4.0.3 since that version on the HPCC has a large number of packages pre-installed.
 
 If you're familiar with the module system, you might try to load the module right away with `module load`:
 
@@ -196,14 +196,15 @@ The real power of `Rscript` comes into play when we have an actual script to run
 
 ```bash
 cd ~/r_workshop
-Rscript test_serial.R
+Rscript src/test_sqrt_multisession.R
 ```
 
 ```output
-TBD
+   user  system elapsed 
+  0.238   0.003   1.698
 ```
 
-This is the equivalent of clicking the Source button while we have a R script open in RStudio, or running `source('~/r_workshop/test_serial.R')` from an R console.
+This is the equivalent of clicking the Source button while we have a R script open in RStudio, or running `source('~/r_workshop/src/test_sqrt_multisession.R')` from an R console.
 Notice that we didn't use the `--vanilla` option here.
 This ensures that we use the local library setup in the project directory.
 
@@ -212,10 +213,10 @@ This ensures that we use the local library setup in the project directory.
 
 Often, you will want to be able to pass extra arguments to your scripts when you run them from the command line. The simplest way is to use the `commandArgs` function in R which lets us access all of the command line arguments as a character vector.
 
-From the command line, open a new R script called `command_args.R` in a text editor of your choice. If you aren't familiar with any, a good option is `nano`.
+From the command line, open a new R script called `src/command_args.R` in a text editor of your choice. If you aren't familiar with any, a good option is `nano`.
 
 ```bash
-nano command_args.R
+nano src/command_args.R
 ```
 
 Our script will print out all of our command line arguments:
@@ -224,7 +225,7 @@ Our script will print out all of our command line arguments:
 args <- commandArgs(trailingOnly = TRUE)
 nargs <- length(args)
 
-for (i in 1:nargs) {
+for(i in 1:nargs) {
   cat("Argument", i, ":", args[i], "\n")
 }
 ```
@@ -236,7 +237,7 @@ If you're using `nano`, after typing the above code, press `ctrl+o` followed by 
 We can now run our script through `Rscript` with some arguments:
 
 ```bash
-Rscript --vanilla command_args.R a b c
+Rscript --vanilla src/command_args.R a b c
 ```
 
 ```output
@@ -262,7 +263,7 @@ Rscript --vanilla -e 'for(i in 1:10) print(i)'
 
 :::::::::::::::::::::::::::::::: challenge
 
-Write an Rscript one-liner to print the `help` for the function `strtoi`.
+Write an Rscript one-liner to display the `help` for the function `strtoi` (press "q" to exit).
 
 :::::::::::::::::::::::: solution
 
@@ -284,7 +285,7 @@ args <- commandArgs(trailingOnly = TRUE)
 n <- strtoi(args[1])
 
 for(i in 1:n) {
-print(i)
+  print(i)
 }
 ```
 :::::::::::::::::::::::::::::::::

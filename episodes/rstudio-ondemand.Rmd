@@ -41,7 +41,7 @@ Go to the Interactive Apps tab and select RStudio.
 
 On the following screen you will be able to choose the options for your RStudio job. For this workshop, you should use the following options:
 
-- R version: 4.0.2
+- R version: 4.0.3
 - Number of hours: 3
 - Number of cores per task: 8
 - Amount of memory: 5GB
@@ -65,13 +65,6 @@ After Launching your RStudio session, a new tab in your browser will show an int
 ![](fig/rstudio-interface.png){alt="An interactive desktop showing a new RStudio session. An R console takes up the left half of RStudio, and the right half is split between an environment section on top and a file browser on bottom."}
 
 On startup, there are three main sections to RStudio: an R console, an environment section, and a file browser. Notice that the file browser starts in your HPCC home directory.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
-
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
