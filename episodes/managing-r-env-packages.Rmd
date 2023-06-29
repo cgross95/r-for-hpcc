@@ -22,7 +22,7 @@ exercises: 2
 ## Libraries
 
 The HPCC has multiple versions of R installed, and many of those versions have a large number of R packages pre-installed.
-But there will come a time when your workflow requires a new package that isn't already installed. For this, you can use R's built-in `install.packages` function.
+But there will come a time when your workflow requires a new package that isn't already installed. For this, you can use R's built-in `install.packages()` function.
 
 Before we do that though, we should check which libraries we have access to.
 We can do this by typing `.libPaths()` into the R console:
@@ -31,20 +31,45 @@ We can do this by typing `.libPaths()` into the R console:
 .libPaths()
 ```
 ```output
-[1] "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"
+[1] "/mnt/ufs18/home-237/k0068027/R/x86_64-pc-linux-gnu-library/4.0"
+[2] "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library" 
 ```
 
-Depending on whether you've used R before and some behind the scenes setup, the output may be different for you.
-However, this directory (or one like, starting with `/opt/software`) should always be one entry in your `.libPaths()`, and points to all of the packages that are pre-installed on the HPCC.
+We see two directories.
+The first is created for you in your home directory, and the second (or one like it, starting with `/opt/software`) points to all of the packages that are pre-installed on the HPCC.
 When you use `install.packages()` in the future, by default, it will install to the first entry in your `.libPaths()`.
 
-:::::::::::::::::::::::::::::::::: callout
+One important point to note is that the library in your home directory is labeled with `4.0` for version 4.0(.3) of R.
+If you ever use different versions of R, it is important that the packages you use are consistent with those versions.
+So, for example, if you choose to use R/3.6.2, you should make sure that the library in your home directory returned by `.libPaths()` ends in 3.0.
+Mixing versions will likely cause your packages to stop working!
+
+:::::::::::::::::::::::::::::::::: discussion
 
 ## What's the difference between a library and a package?
 
 A library is just a collection of packages.
 When you use `library(<package>)`, you are telling R to look in your libraries for the desired package.
 When you use `install.packages(<package>)`, you are telling R to install the desired package into the first library on your `.libPaths()`.
+
+::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::: callout
+
+## What if you don't have a user-writable library?
+
+Sometimes, when starting R for the first time, it may happen that the `.libPaths()` command won't show you a library in your home directory.
+Since the other library is shared by everyone on the HPCC, you won't be able to write to it.
+
+Luckily, R knows this, and if you try to install a package, you will be offered to create a new user-writable library: 
+
+``` output
+Warning in install.packages :
+  'lib = "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"' is not writable
+Would you like to use a personal library instead? (yes/No/cancel)
+```
+
+Answer `yes`, and you will be good to go!
 
 ::::::::::::::::::::::::::::::::::::::::::
 
@@ -55,32 +80,6 @@ Now, let's try to install a package:
 ```r
 install.packages("cowsay")
 ```
-```
-Warning in install.packages :
-  'lib = "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"' is not writable
-Would you like to use a personal library instead? (yes/No/cancel)
-```
-
-R detects that our first available library is not writable by users (this is because it's shared by everyone on the HPCC).
-Instead, it offers to create a personal library for you and install the package there.
-Type `yes`, and you will be asked to create a new personal library at the default location
-
-```output
-Would you like to create a personal library
-‘~/R/x86_64-pc-linux-gnu-library/4.0’
-to install packages into? (yes/No/cancel)
-```
-
-Type yes again, and this will become your new personal library.
-
-:::::::::::::::::::::::::::: callout
-
-## Do you already have a personal library?
-
-If your `.libPaths()` had a local directory (that is, one you're allowed to write and read to) before the one in `/cvmfs` or `/opt/software`, you won't need to follow the preceding steps.
-
-::::::::::::::::::::::::::::::::::::
-
 
 You may then be asked to select a CRAN mirror.
 This is the location where the package is downloaded from.
@@ -132,151 +131,25 @@ In this case, [contact the research consultants at ICER](https://contact.icer.ms
 
 ::::::::::::::::::::::::::::::::::::::::::
 
-## Managing your environment
 
-Let's summarize what happened:
+## Manging your projects
 
-1. We installed a package.
-2. The first location in `.libPaths()` wasn't writable.
-3. So we created a personal library.
-4. The new location was added to our `.libPaths()`
+Now that we know how to install and use external packages, let's talk about managing your code.
+When you use R, it helps to organize your code into separate directories that you can think of as projects.
+As we'll see later, running R out of this project directory can make your life a lot easier!
 
-```r
-.libPaths()
+But when RStudio starts, your working directory is always set to your home directory.
+
+``` r
+getwd()
 ```
-```output
-[1] "/mnt/ufs18/home-237/k0068027/R/x86_64-pc-linux-gnu-library/4.0"
-[2] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library" 
-```
-
-What if in the future you don't want to use this default local library?
-Or you want to use one with a different name?
-R has an environment variable exactly for this: `R_LIBS_USER`!
-If this environment variable is set before you start R, it will use the value as your personal library.
-This means, it will show up first on `.libPaths()` and will be the default location for `install.packages` to use.
-
-But how do we set it?
-If we're running R from the command line (which we'll [talk about later](r-command-line.Rmd)), you can export this variable in the command line before you start R:
-
-```bash
-export R_LIBS_USER="~/Rlibs"
-R
+``` output
+"/mnt/ufs18/home-237/k0068027"
 ```
 
-But not only will we have to do this every time we run R, this process is also hidden away behind the scenes when we use RStudio from OnDemand!
-There's another option: the `.Renviron` file.
-Before R starts up (no matter if it's from the command line or Rstudio), it will look at all the environment variables in this file and set them.
-
-Let's practice. In RStudio, open a new Text File and type
-
-```text
-R_LIBS_USER="~/Rlibs"
-```
-
-Then save this file in your home directory with the name `.Renviron`.
-Don't forget the leading `.`!
-
-In the Session menu of RStudio, click Restart R. Now, let's check our `.libPaths()`:
-
-```r
-.libPaths()
-```
-```
-[1] "/mnt/ufs18/home-237/k0068027/Rlibs"              
-[2] "/opt/software/R/4.0.3-foss-2020a/lib64/R/library"
-```
-
-Our new library is first! If we try and load `cowsay`, it doesn't exist:
-
-```r
-library(cowsay)
-```
-```
-Error in library(cowsay) : there is no package called 'cowsay'
-```
-
-This is because it's in the autogenerated personal library, not `~/Rlibs`.
-However, we can install it into our new library with no problems.
-
-Before we do that though, let's talk about another file that R looks at when it starts up: `.Rprofile`.
-This file contains commands that R will run before anything you run.
-
-Here's an example: we can set the CRAN mirror (the location we download packages from) to be one hosted by the University of Michigan with the R command
-
-```r
-options(repos = "https://repo.miserver.it.umich.edu/cran/")
-```
-
-Let's put this in our `.Rprofile` so it automatically happens before any R session starts up.
-As before, use RStudio to open a new Text File and type
-
-```text
-local({
-  options(repos = "https://repo.miserver.it.umich.edu/cran/")
-})
-```
-
-The `local` part ensures that no output from code we write is available to us in the R session: just the options get set.
-It's good practice to put any code you write in your `.Rprofile` in a call to `local` to keep R from accidentally loading any large objects which slows down startup.
-
-Save this in your home directory as `.Rprofile` and restart R as before.
-Now install `cowsay`:
-
-```r
-install.packages("cowsay")
-```
-```output
-Installing package into '/mnt/ufs18/home-237/k0068027/Rlibs'
-(as 'lib' is unspecified)
-also installing the dependencies 'fortunes', 'rmsfact'
-...
-```
-
-It installs into our specified personal library, and didn't ask for a mirror!
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Startup and shutdown code
-
-The functions `.First` and `.Last` (that don't take any arguments) can be defined in the `.Rprofile` file to run any code before starting and after ending an R session respectively.
-Define these functions so that R will print `### Hello <user> ###` at the beginning of an R session and `### Goodbye <user> ###` at the end (where `<user>` is your username).
-
-Restart your R session to test your solution.
-
-As a bonus, use `Sys.getenv` and the `USER` environment variable to say hello and goodbye to whoever is using the `.Rprofile`.
-
-:::::::::::::::::::::::: solution 
-
-```r
-.First <- function() cat("### Hello", Sys.getenv("USER"), "###\n")
-.Last <- function() cat("### Goodbye", Sys.getenv("USER"), "###\n")
-```
-
-:::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-:::::::::::::::::::::::::::::::::::::::challenge
-
-## Back to basics
-
-Keeping very specialized code in your `.Rprofile` and `.Renviron` files can make it harder to execute your code on other computers.
-For now, move `.Rprofile` to `.Rprofile.bak` and `.Renviron` to `.Renviron.bak` so you're at a clean slate going forward.
-In the future, you can reference the changes you've made in the `.bak` files and choose what to keep in your own files.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Project and package management
-
-The `.Rprofile` and `.Renviron` files don't have to live in your home directory.
-In fact, R checks for them in a set order:
-
-1. In the directory where R is started.
-2. In your home directory.
-3. In a global directory where R is installed. On the HPCC, for version 4.0.3, this is the file `$R_HOME/etc/Renviron` (you can check where `$R_HOME` is with `Sys.getenv("$R_HOME")`).
-
-This means that you can setup per project profile and environment files, and use them by starting R in those directories. However, RStudio usually starts R in your home directory. Instead, the most effective way to achieve this is through RStudio Projects.
+RStudio has it's own solution to this: RStudio Projects!
+Let's create one to test this out.
+Find the button in RStudio that looks like a plus sign on top of a cube near the edit menu.
 
 Start by creating an RStudio Project with button that looks like a plus sign on top of a cube near the Edit menu.
 
@@ -295,39 +168,61 @@ Your new RStudio Project will be loaded. This means a few things:
 4. A file called `r_workshop.Rproj` has been created. This file saves some options for how you edit your project in RStudio.
 
 At any time, you can navigate to your project directory in the RStudio file browser and click the `.Rproj` file to load up this project or any other.
-Now that we have this set up, we could create a local `.Rprofile` or `.Renviron` file just for this project.
 
-If you share your project, you can share any of these files as well (including your `.Rproj`) so others can use it too!
+## Configuring your projects
 
-:::::::::::::::::::::::::::::::: challenge
+What if we wanted to make some changes to the way that R operates?
+There are two files that we can create to help us do that: `.Rprofile` and `.Renviron`.
 
-## A mini package isolation solution
+First, let's suppose that we want to make sure we use the University of Michigan CRAN mirror install our packages.
+The R command 
 
-Suppose you're working on a project with some super special versions of packages that you don't want to mess up other packages that you'll use in other projects.
-The right way to do this is with a package manager like [`packrat`](https://rstudio.github.io/packrat/) or the newer [`renv`](https://rstudio.github.io/renv/articles/renv.html).
-But we'll create a quick approximation.
-
-Set your `R_LIBS_USER` environment variable to point to a directory called `library` in your `r_workshop` directory.
-Make sure that this **only** happens when you start R in your `r_workshop` directory, and not always!
-
-Restart R, check your work with the `.libPaths()`, and install the following packages:
-
-  - `future`
-  - `doFuture`
-  - `foreach`
-- `future.batchtools`
-
-These packages won't be available anywhere outside of this project.
-
-:::::::::::::::::: solution
-
-Create the file `~/r_workshop/.Renviron` with the following line
-
-```text
-R_LIBS_USER="./library"
+```r
+options(repos = "https://repo.miserver.it.umich.edu/cran/")
 ```
 
-Restarting R we check our library paths
+will take care of this for us.
+To make sure this runs every time we start R, we'll put it in the `.Rprofile` file.
+
+Use RStudio to open a new Text File and type
+
+```text
+local({
+  options(repos = "https://repo.miserver.it.umich.edu/cran/")
+})
+```
+
+The `local` part ensures that no output from code we write is available to us in the R session: just the options get set.
+It's good practice to put any code you write in your `.Rprofile` in a call to `local` to keep R from accidentally loading any large objects which slows down startup.
+
+Save this in your `r_workshop` directory as `.Rprofile` (don't forget the leading `.`).
+Any time R starts, it will look for a `.Rprofile` file in the current directory, and execute all of the code before doing anything else.
+To make this take effect in RStudio, you can restart R by going to the Session menu, and select Restart R.
+
+Now suppose that this project we're working on uses some very special packages that we don't want in the library in our home directory.
+The right way to do this is with a package manager like [`packrat`](https://rstudio.github.io/packrat/) or the newer [`renv`](https://rstudio.github.io/renv/articles/renv.html).
+But for example's sake, we'll create a quick approximation with the `R_LIBS_USER` environment variable and the `.Renviron` file.
+
+The `R_LIBS_USER` environment variable can be set to a directory that you want to use as a library instead of the default one we saw before in your home directory.
+If we're running R from the command line (which we'll [talk about later](r-command-line.Rmd)), we could export this variable in the command line before you start R:
+
+```bash
+export R_LIBS_USER="./library"
+R
+```
+
+But not only would we have to do this every time we run R, this process is also hidden away behind the scenes when we use RStudio from OnDemand!
+There's another option: the `.Renviron` file.
+Before R starts up (no matter if it's from the command line or Rstudio), it will look at all the environment variables in this file and set them.
+
+In RStudio, open a new Text File and type
+
+```text
+R_LIBS_USER="./"
+```
+
+Then save this file in your `r_workshop` directory with the name `.Renviron`.
+Now, restart R using the Session menu, and check your `.libPaths()` in the R console:
 
 ```r
 .libPaths()
@@ -337,7 +232,61 @@ Restarting R we check our library paths
 [2] "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"
 ```
 
-and see that our `library` directory is first.
+Great! We can even check that we've isolated ourselves from the default home directory library by trying to load `cowsay`:
+
+```r
+library(cowsay)
+```
+```
+Error in library(cowsay) : there is no package called 'cowsay'
+```
+
+
+::::::::::::::::::::::::::::::::::::::::: callout
+
+## Other configuration locations
+
+The `.Rprofile` and `.Renviron` files don't have to live in the directory you start R from.
+In fact, R checks for them in a set order:
+
+1. In the directory where R is started.
+2. In your home directory.
+3. In a global directory where R is installed. On the HPCC, for version 4.0.3, this is the file `$R_HOME/etc/Renviron` (you can check where `$R_HOME` is with `Sys.getenv("$R_HOME")`).
+
+and uses the values in the first one it finds.
+
+This means you can set a more global configuration by putting environment variables and startup scripts in the `.Renviron` and `.Rprofile` files in your home directory.
+However, if you forget what defaults you setup there and you try to move to another computer, you may have trouble running your code again.
+It's best to use these home directory files sparingly to preserve portability.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::: challenge
+
+## Packages for later
+
+Install the following packages in your `r_workshop` project library:
+
+  - `future`
+  - `doFuture`
+  - `foreach`
+  - `future.batchtools`
+
+Check to make sure these install into the right library.
+
+:::::::::::::::::: solution
+
+Double checking our library paths
+
+```r
+.libPaths()
+```
+```output
+[1] "/mnt/ufs18/home-237/k0068027/r_workshop/library" 
+[2] "/cvmfs/pub_software.icer.msu.edu/software/R/4.0.3-foss-2020a/lib64/R/library"
+```
+
+we see that our `r_workshop/library` directory is first.
 
 If we install `future`, it goes into this directory:
 
@@ -348,12 +297,27 @@ install.packages("future")
 Installing package into `/mnt/ufs18/home-237/k0068027/r_workshop/library`
 (as `lib` is unspecified)
 ```
-One important note: if you share a project like this with anyone in the future, **don't** share the library directory.
-Other people may be using different operating systems that these downloaded packages won't work on, and libraries can grow in size very quickly!
-So long as you share the setup files, they can download them on their own.
-Again though, the better way is to use a package manager like `renv` and share the files with all of the necessary packages.
 
 :::::::::::::::::::::::::::
+
+
+## Startup and shutdown code
+
+The functions `.First` and `.Last` (that don't take any arguments) can be defined in the `.Rprofile` file to run any code before starting and after ending an R session respectively.
+Define these functions so that R will print `### Hello <user> ###` at the beginning of an R session and `### Goodbye <user> ###` at the end (where `<user>` is your username).
+
+Restart your R session to test your solution.
+
+As a bonus, use `Sys.getenv` and the `USER` environment variable to say hello and goodbye to whoever is using the `.Rprofile`.
+
+:::::::::::::::::::::::: solution 
+
+```r
+.First <- function() cat("### Hello", Sys.getenv("USER"), "###\n")
+.Last <- function() cat("### Goodbye", Sys.getenv("USER"), "###\n")
+```
+
+:::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::
 
@@ -394,15 +358,28 @@ For example, you may be using the HPCC to analyze some very large files that wou
 Maybe these live in your group's research space on the HPCC so you don't have to copy them around.
 In this case, it might make sense to use an absolute path to this file in your R scripts, e.g., `/mnt/research/my_lab/big_experiment/experiment1.csv`.
 
-If you do decide to do this however, make sure you only do it one time (e.g., set this path to a variable one time and use that variable everywhere), and document where you do it!
-This will make it easy to change if you do ever need to share or move your project or data.
+If you do decide to do this however, make sure you only do it one time!
+This is a great use for the `.Renviron` file.
+Instead of directly typing `/mnt/research/my_lab/big_experiment/` into your code, set this as an environment variable in your `.Renviron`:
 
+``` bash
+DATA_DIR="/mnt/research/my_lab/big_experiment"
+```
 
+When you need to access this directory from R, use `Sys.getenv()`:
+
+```r
+data_dir <- Sys.getenv("DATA_DIR")
+data <- read.csv(file.path(data_dir, "experiment1.csv"))
+```
+
+If somebody else wants to use your project outside of the HPCC and downloads the data on their own, they just have to set the `DATA_DIR` variable in the `.Renviron` file once and for all.
+This can be a great place to keep user specific configurations like usernames, secrets, or API keys.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
 - The `.libPaths()` function shows you where R looks for and installs packages
-- Set the `R_LIBS_USER` environment variable in the `.Renviron` file to change where R looks for and installs libraries
+- Use the `.Renviron` file to set environment variables you'd like to use for your project
 - Add functions and set options in the `.Rprofile` file to customize your R session
 - Start R from your project directory and use relative paths
 
