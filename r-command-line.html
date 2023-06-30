@@ -178,6 +178,7 @@
 <li><a href="#loading-r">Loading R</a></li>
 <li><a href="#running-one-liners-and-scripts-with-rscript">Running one-liners and scripts with <code>RScript</code></a></li>
 <li><a href="#writing-scripts-that-take-command-line-arguments">Writing scripts that take command line arguments</a></li>
+<li><a href="#plotting-with-the-command-line">Plotting with the command line</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
         
@@ -244,7 +245,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Using R on the command line</h1>
-        <p> Last updated on 2023-06-28 | 
+        <p> Last updated on 2023-06-30 | 
         
         <a href="https://github.com/cgross95/r-for-hpcc/edit/main/episodes/r-command-line.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -264,6 +265,8 @@
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul><li>How do you run R on the HPCC through the command line?</li>
+<li>How can I create plots when I’m not using a graphical
+interface?</li>
 </ul></div>
 </div>
 </div>
@@ -654,6 +657,100 @@ prints the numbers from 1 to that integer.</p>
 </div>
 </div>
 </div>
+</section><section id="plotting-with-the-command-line"><h2 class="section-heading">Plotting with the command line<a class="anchor" aria-label="anchor" href="#plotting-with-the-command-line"></a>
+</h2>
+<hr class="half-width"><p>You may wonder how you might run a plot using the terminal interface?
+For most terminals, if you plot with the command line version of R,
+either nothing happens or there is an error message. It may work on some
+terminals, if X11 Linux graphical interface is installed and the
+terminal is an X11-capable (for example on MacOS is ‘Quartz’ is
+installed, a new windows will appear). However when running in ‘batch’
+mode using the cluster (described in the next session), there is no
+interface at all.</p>
+<p>There are the following techniques for handling plots when using R on
+the command line on HPCC</p>
+<ul><li>split your code into computation and presentation sections: run
+computation section using CLI/Batch on HPC, and after the computation is
+complete, save the output to be read into visualization code that you
+run on a machine with a graphic user interface (OnDemand Rstudio, or
+even your laptop)</li>
+<li>capture all output to a file using commands like PDF()</li>
+<li>as part of your script, create an RMarkdown file that includes
+plotting (or other output), and use the <a href="https://rmarkdown.rstudio.com/docs/reference/render.html" class="external-link">render</a>
+command in Rmarkdown to PDF or other format to be review later</li>
+</ul><p>We’ll describe the method to capture output into a PDF here.</p>
+<p>A sample script that uses the <code>pdf</code> function to capture
+plots looks like this:</p>
+<div class="codewrapper sourceCode" id="cb26">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plotfile</span> <span class="op">=</span> <span class="st">'testplots.pdf'</span></span>
+<span><span class="fu">pdf</span><span class="op">(</span><span class="va">plotfile</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plot</span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Petal.Length</span>, <span class="va">iris</span><span class="op">$</span><span class="va">Petal.Width</span>, pch<span class="op">=</span><span class="fl">21</span>, bg<span class="op">=</span><span class="fu">c</span><span class="op">(</span><span class="st">"red"</span>,<span class="st">"green3"</span>,<span class="st">"blue"</span><span class="op">)</span><span class="op">[</span><span class="fu">unclass</span><span class="op">(</span><span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span><span class="op">]</span>, main<span class="op">=</span><span class="st">"Edgar Anderson's Iris Data"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">dev.off</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<p>For much nore details about using this techinque, see <a href="https://r-graphics.org/chapter-output" class="external-link">Chapter 14 Output for
+Presentation</a> of Winston Chang’s <strong>R Graphics
+Cookbook</strong></p>
+<p>Once you run the script and save the PDFs, the next challenge is to
+view them because, again, the terminal does not have the GUI to view
+PDFs.</p>
+<p>You could</p>
+<ul><li>download the PDF to your computer from the terminal using OnDemand
+file browser (or the MobaXterm client’s file browser)</li>
+<li>open with the OneDemand Rstudio.</li>
+</ul><div id="challenge4" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Challenge<a class="anchor" aria-label="anchor" href="#challenge4"></a>
+</h3>
+<div class="callout-content">
+<p>One of the challenges with running scripts repeatedly is that it will
+overwrite the plot file with the same name. Modify the plotting script
+above that accepts a command line parameter for the the name of the PDF
+file. BONUS: how would you handle the case where there was no command
+line argument sent?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
+  <h4 class="accordion-header" id="headingSolution4">
+  Show me the solution
+  </h4>
+</button>
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb27">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode r" tabindex="0"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>args <span class="ot">&lt;-</span> <span class="fu">commandArgs</span>(<span class="at">trailingOnly =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># check if there was at least 1 arg</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="fu">length</span>(args) <span class="sc">&gt;=</span> <span class="dv">1</span> {</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>   <span class="co">#assume the arg is a PDF file name, and use that to capture plots</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>   plotfile <span class="ot">=</span> args[<span class="dv">1</span>]</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pdf</span>(plotfile)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co"># if not argument is sent, PDF capture is not enabled and the plot will display</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris<span class="sc">$</span>Petal.Length, iris<span class="sc">$</span>Petal.Width, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">bg=</span><span class="fu">c</span>(<span class="st">"red"</span>,<span class="st">"green3"</span>,<span class="st">"blue"</span>)[<span class="fu">unclass</span>(iris<span class="sc">$</span>Species)], <span class="at">main=</span><span class="st">"Edgar Anderson's Iris Data"</span>)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -671,6 +768,7 @@ files</li>
 <li>Run <code>Rscript</code> to run an R script</li>
 <li>Use <code>commandArgs</code> to parse command line arguments in an R
 script</li>
+<li>Use <code>pdf()</code> to capture plotting into a PDF file</li>
 </ul></div>
 </div>
 </div>
@@ -731,8 +829,8 @@ any links that you are not going to use.
   "url": "https://cgross95.github.io/r-for-hpcc/r-command-line.html",
   "identifier": "https://cgross95.github.io/r-for-hpcc/r-command-line.html",
   "dateCreated": "2023-06-30",
-  "dateModified": "2023-06-28",
-  "datePublished": "2023-06-29"
+  "dateModified": "2023-06-30",
+  "datePublished": "2023-06-30"
 }
 
   </script><script>
