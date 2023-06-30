@@ -7,6 +7,7 @@ exercises: 2
 :::::::::::::::::::::::::::::::::::::: questions 
 
 - How do you run R on the HPCC through the command line?
+- How can I create plots when I'm not using a graphical interface?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -292,6 +293,72 @@ for(i in 1:n) {
 
 ::::::::::::::::::::::::::::::::::::::::::
 
+## Plotting with the command line
+
+You may wonder how you might run a plot using the terminal interface?   For most terminals, if you plot with the command line version of R, either nothing happens or there is an error message.  It may work on some terminals, if X11 Linux graphical interface is installed and the terminal is an X11-capable (for example on MacOS is 'Quartz' is installed, a new windows will appear).  However when running in 'batch' mode using the cluster (described in the next session), there is no interface at all. 
+
+There are the following techniques for handling plots when using R on the command line on HPCC
+
+- split your code into computation and presentation sections:  run computation section using CLI/Batch on HPC, and after the computation is complete, save the output to be read into visualization code that you run on a machine with a graphic user interface (OnDemand Rstudio, or even your laptop)
+- capture all output to a file using commands like PDF()
+- as part of your script, create an RMarkdown file that includes plotting (or other output), and use the [render](https://rmarkdown.rstudio.com/docs/reference/render.html) command in Rmarkdown to PDF or other format to be review later
+
+We'll describe the method to capture output into a PDF here.   
+
+A sample script that uses the `pdf` function to capture plots looks like this: 
+
+```r
+plotfile = 'testplots.pdf'
+pdf(plotfile)
+
+plot(iris$Petal.Length, iris$Petal.Width, pch=21, bg=c("red","green3","blue")[unclass(iris$Species)], main="Edgar Anderson's Iris Data")
+
+dev.off()
+```
+
+For much nore details about using this techinque, see 
+[Chapter 14 Output for Presentation](https://r-graphics.org/chapter-output) of Winston Chang's **R Graphics Cookbook** 
+
+Once you run the script and save the PDFs, the next challenge is to view them because, again, the terminal does not have the GUI to view PDFs.  
+
+You could
+
+ - download the PDF to your computer from the terminal using OnDemand file browser (or the MobaXterm client's file browser)
+ - open with the OneDemand Rstudio. 
+ 
+ 
+
+:::::::::::::::::::::::::::::::: challenge
+
+One of the challenges with running scripts repeatedly is that it will overwrite the plot file with the same name.  Modify the plotting script above that accepts a command line parameter for the the name of the PDF file.  BONUS: how would you handle the case where there was no command line argument sent?
+
+:::::::::::::::::::::::: solution
+
+```r
+args <- commandArgs(trailingOnly = TRUE)
+
+# check if there was at least 1 arg
+if length(args) >= 1 {
+
+   #assume the arg is a PDF file name, and use that to capture plots
+   plotfile = args[1]
+   pdf(plotfile)
+
+}
+
+# if not argument is sent, PDF capture is not enabled and the plot will display
+
+plot(iris$Petal.Length, iris$Petal.Width, pch=21, bg=c("red","green3","blue")[unclass(iris$Species)], main="Edgar Anderson's Iris Data")
+
+dev.off()
+
+```
+:::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::
+
+
+
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
 - Use `module spider R/<version>` to learn how to load a version of R on the HPCC
@@ -299,6 +366,7 @@ for(i in 1:n) {
 - Use the `--vanilla` option to ignore extra configuration files
 - Run `Rscript` to run an R script
 - Use `commandArgs` to parse command line arguments in an R script
+- Use `pdf()` to capture plotting into a PDF file
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
