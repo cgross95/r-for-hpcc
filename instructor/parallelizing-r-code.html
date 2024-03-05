@@ -336,13 +336,12 @@ output:</p>
 course, this all came from us asking the code to sleep for half a second
 each loop iteration! This is just to simulate a long running chunk of
 code that we might want to parallelize.</p>
-<div id="a-digression-on-vectorization" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="a-digression-on-vectorization" class="callout-inner">
-<h3 class="callout-title">A digression on vectorization<a class="anchor" aria-label="anchor" href="#a-digression-on-vectorization"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="a-digression-on-vectorization">A digression on vectorization<a class="anchor" aria-label="anchor" href="#a-digression-on-vectorization"></a></h3>
 <div class="callout-content">
 <p>Ignoring the <code>Sys.sleep(0.5)</code> part of our loop, if we just
 wanted the square root of all of the elements in <code>x</code>, we
@@ -615,28 +614,28 @@ project directory:</p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">######################################################################</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A batchtools launch script template for Slurm</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Author: Henrik Bengtsson </span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">######################################################################</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=&lt;%= job.name %&gt;</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=&lt;%= log.file %&gt;</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:05:00</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">## Resources needed:</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- unlist<span class="er">(</span><span class="ex">resources,</span> use.names = TRUE<span class="kw">)</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"--%s=%s"</span><span class="ex">,</span> names<span class="er">(</span><span class="ex">opts</span><span class="kw">)</span><span class="ex">,</span> opts<span class="kw">)</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- paste<span class="er">(</span><span class="ex">opts,</span> collapse = <span class="st">" "</span><span class="kw">)</span> <span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH &lt;%= opts %&gt;</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>% <span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co">## Launch R and evaluated the batchtools R job</span></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="co">######################################################################</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="co"># A batchtools launch script template for Slurm</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="co"># Author: Henrik Bengtsson </span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="co">######################################################################</span></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="co">#SBATCH --job-name=&lt;%= job.name %&gt;</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="co">#SBATCH --output=&lt;%= log.file %&gt;</span></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="co">#SBATCH --time=00:05:00</span></span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a><span class="co">## Resources needed:</span></span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a><span class="op">&lt;</span>% <span class="cf">if</span> <span class="kw">(</span><span class="ex">length</span><span class="er">(</span><span class="ex">resources</span><span class="kw">)</span> <span class="op">&gt;</span> 0<span class="kw">)</span> <span class="kw">{</span></span>
+<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- unlist<span class="er">(</span><span class="ex">resources,</span> use.names = TRUE<span class="kw">)</span></span>
+<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- sprintf<span class="er">(</span><span class="st">"--%s=%s"</span><span class="ex">,</span> names<span class="er">(</span><span class="ex">opts</span><span class="kw">)</span><span class="ex">,</span> opts<span class="kw">)</span></span>
+<span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a>  <span class="ex">opts</span> <span class="op">&lt;</span>- paste<span class="er">(</span><span class="ex">opts,</span> collapse = <span class="st">" "</span><span class="kw">)</span> <span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb20-18"><a href="#cb20-18" tabindex="-1"></a><span class="co">#SBATCH &lt;%= opts %&gt;</span></span>
+<span id="cb20-19"><a href="#cb20-19" tabindex="-1"></a><span class="op">&lt;</span>% <span class="kw">}</span> <span class="ex">%</span><span class="op">&gt;</span></span>
+<span id="cb20-20"><a href="#cb20-20" tabindex="-1"></a></span>
+<span id="cb20-21"><a href="#cb20-21" tabindex="-1"></a><span class="co">## Launch R and evaluated the batchtools R job</span></span>
+<span id="cb20-22"><a href="#cb20-22" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'batchtools::doJobCollection("&lt;%= uri %&gt;")'</span></span></code></pre>
 </div>
 <p>Now, there are some parts that don’t look like like a normal SLURM
 script, but we see that each SLURM job automatically requests one node
@@ -795,7 +794,7 @@ any links that you are not going to use.
   "identifier": "https://cgross95.github.io/r-for-hpcc/instructor/parallelizing-r-code.html",
   "dateCreated": "2023-06-30",
   "dateModified": "2023-11-21",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

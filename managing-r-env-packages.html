@@ -338,14 +338,13 @@ install the desired package into the first library on your
 </div>
 </div>
 </div>
-<div id="what-if-you-dont-have-a-user-writable-library" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="what-if-you-dont-have-a-user-writable-library" class="callout-inner">
-<h3 class="callout-title">What if you don’t have a user-writable
-library?<a class="anchor" aria-label="anchor" href="#what-if-you-dont-have-a-user-writable-library"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="what-if-you-dont-have-a-user-writable-library">What if you don’t have a user-writable
+library?<a class="anchor" aria-label="anchor" href="#what-if-you-dont-have-a-user-writable-library"></a></h3>
 <div class="callout-content">
 <p>Sometimes, when starting R for the first time, it may happen that the
 <code>.libPaths()</code> command won’t show you a library in your home
@@ -408,14 +407,13 @@ Hello world!
                \_)
   </code></pre>
 </div>
-<div id="do-your-packages-require-external-dependencies" class="callout callout">
+<div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="do-your-packages-require-external-dependencies" class="callout-inner">
-<h3 class="callout-title">Do your packages require external
-dependencies?<a class="anchor" aria-label="anchor" href="#do-your-packages-require-external-dependencies"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="do-your-packages-require-external-dependencies">Do your packages require external
+dependencies?<a class="anchor" aria-label="anchor" href="#do-your-packages-require-external-dependencies"></a></h3>
 <div class="callout-content">
 <p>Often, packages will require some extra software to install, run, or
 both. Getting external dependencies lined up correctly can be a big
@@ -528,8 +526,8 @@ start R:</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">R_LIBS_USER</span><span class="op">=</span><span class="st">"./library"</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">R_LIBS_USER</span><span class="op">=</span><span class="st">"./library"</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="ex">R</span></span></code></pre>
 </div>
 <p>But not only would we have to do this every time we run R, this
 process is also hidden away behind the scenes when we use RStudio from
@@ -564,13 +562,12 @@ default home directory library by trying to load
 <code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">cowsay</span><span class="op">)</span></span></code></pre>
 </div>
 <pre><code>Error in library(cowsay) : there is no package called 'cowsay'</code></pre>
-<div id="other-configuration-locations" class="callout callout">
+<div id="callout3" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="other-configuration-locations" class="callout-inner">
-<h3 class="callout-title">Other configuration locations<a class="anchor" aria-label="anchor" href="#other-configuration-locations"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="other-configuration-locations">Other configuration locations<a class="anchor" aria-label="anchor" href="#other-configuration-locations"></a></h3>
 <div class="callout-content">
 <p>The <code>.Rprofile</code> and <code>.Renviron</code> files don’t
 have to live in the directory you start R from. In fact, R checks for
@@ -753,7 +750,7 @@ into your code, set this as an environment variable in your
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="va">DATA_DIR</span><span class="op">=</span><span class="st">"/mnt/research/my_lab/big_experiment"</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="va">DATA_DIR</span><span class="op">=</span><span class="st">"/mnt/research/my_lab/big_experiment"</span></span></code></pre>
 </div>
 <p>When you need to access this directory from R, use
 <code>Sys.getenv()</code>:</p>
@@ -846,7 +843,7 @@ any links that you are not going to use.
   "identifier": "https://cgross95.github.io/r-for-hpcc/managing-r-env-packages.html",
   "dateCreated": "2023-06-30",
   "dateModified": "2023-11-21",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>
